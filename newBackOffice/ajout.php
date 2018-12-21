@@ -76,7 +76,7 @@
             </select><br/>
             <br/>
             Rubrique :
-            <select id="select_rubrique" name="rubrique" required>
+            <select id="select_rubrique" name="rubrique" onchange="ajoutFon4();" required>
               <option value=''>Choisir :</option>
               <?php
               $sql = 'SELECT * FROM rubriques';
@@ -89,6 +89,7 @@
               <?php }
               $table->closeCursor();
               ?>
+                <option value="ajoutRub">Ajouter</option>
             </select><br/>
 
             <br/>

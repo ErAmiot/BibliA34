@@ -14,6 +14,12 @@ function ajoutFon3(){
   }
 };
 
+function ajoutFon4(){
+    if(document.getElementById('select_rubrique').value == "ajoutRub"){
+        window.location = "ajoutPlus/ajoutRub.php";
+    }
+};
+
 function retour(){
   window.location = "../ajout.php";
 }

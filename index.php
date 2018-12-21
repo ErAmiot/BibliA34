@@ -7,7 +7,9 @@ get_header();
     <div id="index2">
         <div id="imgAdmin">
             <!-- Bouton pour l'accès au backoffice, réservé aux administrateurs -->
-            <button id="connexionadmin" type="button" onClick="location.href = 'back-office.php';"/>Connexion admin</button>
+            <button id="connexionadmin" type="button" onClick="location.href = 'back-office.php';"/>Connexion admin</button></br>
+        <!-- Bouton pour l'accès aux comptes clients -->
+         <button id="connexionclient" type="button" onClick="location.href = 'connexionClient.php';"/>Connexion client</button>
         </div>
         <h1>Recherche de livres</h1>
         <div id="etape1">
