@@ -13,13 +13,19 @@
 		<h1>Ajout</h1>
 		<?php
 		$titre=htmlentities($_POST["titre"]);
+                echo $titre;
 		$auteur=htmlentities($_POST["auteur"]);
-		$collection=htmlentities($_POST["collection"]);
-		$editeur=htmlentities($_POST["editeur"]);
-		$rubrique=htmlentities($_POST["rubrique"]);
-		$isbn=htmlentities($_POST["isbn"]);
-		$date=htmlentities($_POST["date"]);
-
+		echo $auteur;
+                $collection=htmlentities($_POST["collection"]);
+		echo $collection;
+                $editeur=htmlentities($_POST["editeur"]);
+		echo $editeur;
+                $rubrique=htmlentities($_POST["rubrique"]);
+		echo $rubrique;
+                $isbn=htmlentities($_POST["isbn"]);
+		echo $isbn;
+                $date=htmlentities($_POST["date"]);
+                echo $date;
 
 		require '../../sqlconnect.php';
 

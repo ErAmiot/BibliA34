@@ -23,9 +23,10 @@
               <input type="text" name="titre" value="" placeholder="Titre" required/><br/>
               <p>ISBN</p>
               <input type="text" name="isbn" value="" placeholder="ISBN" pattern="^[0-9]{3}-[0-9]{1}-[0-9]{4}-[0-9]{4}-[0-9]{1}$" title="L'ISBN doit ressembler à : XXX-X-XXXX-XXXX-X" required/><br/><br/><br/>
-            Auteur :
-            <select id="select_auteur" name="auteur" onchange="ajoutFon();" required>
-              <option value=''>Choisir :</option>
+            <div id="auteur">
+              Auteur :
+            <select id="select_auteur0" name="auteur" onchange="ajoutFon();" required>
+              <option value='rien'>Choisir :</option>
               <?php
               $sql = 'SELECT AUT_NOM, AUT_PRENOM, AUT_NUM  FROM auteur';
               $table = $connection->query($sql);
@@ -39,7 +40,7 @@
               $table->closeCursor();
               ?>
                 <option value="ajoutAut">Ajouter</option>
-            </select><br/>
+            </select></div>
             <br/>
             Collection :
             <select id="select_collection" name="collection" onchange="ajoutFon2();" required>
@@ -75,9 +76,10 @@
                 <option value="ajoutEdit">Ajouter</option>
             </select><br/>
             <br/>
+            <div id="rubrique">
             Rubrique :
-            <select id="select_rubrique" name="rubrique" onchange="ajoutFon4();" required>
-              <option value=''>Choisir :</option>
+            <select id="select_rubrique0" name="rubrique" onchange="ajoutFon4();" required>
+              <option value='rien'>Choisir :</option>
               <?php
               $sql = 'SELECT * FROM rubriques';
               $table = $connection->query($sql);
@@ -90,7 +92,7 @@
               $table->closeCursor();
               ?>
                 <option value="ajoutRub">Ajouter</option>
-            </select><br/>
+            </select></div>
 
             <br/>
             Date de parution :
