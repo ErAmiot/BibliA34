@@ -1,8 +1,27 @@
 <?php
+$login=htmlentities($_POST["login"]);
+$pwd=md5(htmlentities($_POST["pwd"]));
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+require '../sqlconnect.php';
+$sql = "SELECT *  FROM client WHERE CLIENT_NOM =  '".$login."' AND CLIENT_MDP = '".$pwd."'";
+$table = $connection->query($sql);
+$count=$table->rowCount();
+if ($count > 0) {
+	while($ligne = $table->fetch()) {
+		session_start();
+		$_SESSION['CLIENT_NOM']=$login;
+                $_SESSION['CLIENT_ID']=$ligne['CLIENT_ID'];
+                
+               
+	}
+	header('Location: accueilClient.php');
+}
+else{
+	?>
+	<script>alert("Erreur: Nom d'utilisateur ou mot de passe incorrect.");
+            window.location.href = "../connexionClient.php";
+	</script>
+	<?php
+        
+}
+?>

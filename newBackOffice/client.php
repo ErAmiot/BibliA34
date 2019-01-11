@@ -51,6 +51,7 @@
                                     <th>Ville Client</th>
                                     <th>Code Postal</th>
                                     <th>Adresse Mail</th>
+                                    <th>Mot de passe</th>
                                     <th>Supprimer?</th>
                                 </tr>
                                 <?php
@@ -63,6 +64,7 @@
                                     $CLIENTVILLE = $ligne["CLIENT_VILLE"];
                                     $CLIENTCP = $ligne["CLIENT_CP"];
                                     $CLIENTMAIL = $ligne["CLIENT_MAIL"];
+                                    $CLIENTMDP = $ligne["CLIENT_MDP"];
 
                                     ?>
                                     <tr>
@@ -74,6 +76,7 @@
                                         <td><?php echo $CLIENTVILLE; ?></td>
                                         <td><?php echo $CLIENTCP; ?></td>
                                         <td><?php echo $CLIENTMAIL; ?></td>
+                                        <td><?php echo $CLIENTMDP; ?></td>
                                         <td><input type="checkbox"  id="supprClient" name="supprClient[]" value="<?php echo $CLIENTID ?>"></td>
 
                                     </tr>

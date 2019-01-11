@@ -7,7 +7,7 @@ get_header();
 ?>
 <form id="auth_form" action="newBackOffice/loginClient.php" method="POST">
      <p>
-         <label for="login"></label><input id="mail" type="mail" name="login" value="" placeholder="Email"/> <br/>
+         <label for="login"></label><input id="mail" type="mail" name="login" value="" placeholder="Name"/> <br/>
          <label for="pwd"></label><input id="pwd" type="password" name="pwd" value="" placeholder="Password"/><br/>
          <input type="reset" value="Annuler"> <input type="submit" value="Connexion"/>
     </p>
