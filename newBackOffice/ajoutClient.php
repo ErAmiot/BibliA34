@@ -50,7 +50,11 @@
           <div class="ajoutClientformul">
               <p>Adresse mail</p>
               <input type="text" id="adresseMailClient" name="adresseMailClient" value=""  required/><br/>
-          </div>   
+          </div>
+          <div class="ajoutClientformul">
+              <p>Mot de passe</p>
+              <input type="text" id="motDePasseClient" name="motDePasseClient" value=""  required/><br/>
+          </div> 
           <br>
           <br>
           <br>

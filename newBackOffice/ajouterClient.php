@@ -27,18 +27,12 @@
             $ville=$_POST["villeClient"];
             $cp=$_POST["codePostalClient"];
             $mail=$_POST["adresseMailClient"];
+            $mdp = md5($_POST["motDePasseClient"]);
 
             require '../sqlconnect.php';
 
-            $sql = "INSERT INTO client (CLIENT_ID,CLIENT_NOM, CLIENT_PRENOM, CLIENT_TEl, CLIENT_ADR, CLIENT_VILLE, CLIENT_CP, CLIENT_MAIL) "
-                    . "VALUES (default,'"
-                    . $nom . "','" 
-                    . $prenom . "','" 
-                    . $tel . "','" 
-                    . $adresse. "','"
-                    . $ville."','"
-                    . $cp."','"
-                    . $mail."');";
+            $sql = "INSERT INTO client (CLIENT_NOM, CLIENT_PRENOM, CLIENT_TEl, CLIENT_ADR, CLIENT_VILLE, CLIENT_CP, CLIENT_MAIL, CLIENT_MDP ) VALUES ('" . $nom . "', '" . $prenom . "', '" . $tel . "', '" . $adresse . "', '" . $ville . "', '" . $cp . "', '" . $mail . "', '" . $mdp . "');";
+          
             $connection->exec($sql);
 
             echo "Client ajouté.";
