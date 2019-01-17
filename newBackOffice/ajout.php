@@ -36,7 +36,7 @@
                                 $numAut = $ligne['AUT_NUM'];
                                 ?>
                                 <option value='<?php echo $numAut ?>'><?php echo $nomAut . ' ' . $prenomAut ?></option>
-                            <?php
+                                <?php
                             }
                             $table->closeCursor();
                             ?>
@@ -54,7 +54,7 @@
                             $numCol = $ligne['COL_NUM'];
                             ?>
                             <option value='<?php echo $numCol ?>'><?php echo $nomCol ?></option>
-                        <?php
+                            <?php
                         }
                         $table->closeCursor();
                         ?>
@@ -72,7 +72,7 @@
                             $numEdit = $ligne['EDIT_NUM'];
                             ?>
                             <option value='<?php echo $numEdit ?>'><?php echo $nomEdit ?></option>
-                        <?php
+                            <?php
                         }
                         $table->closeCursor();
                         ?>
@@ -80,27 +80,36 @@
                     </select><br/>
                     <br/>
                     Rubrique :</br>
-                        <select id="select_rubrique" name="rubrique[]" type="select" multiple size="6" onchange="ajoutFon4();" required>
-                            <option value=''>Choisir :</option>
+                    <select id="select_rubrique" name="rubrique[]" type="select" multiple size="6" onchange="ajoutFon4();" required>
+                        <option value=''>Choisir :</option>
+                        <?php
+                        $sql = 'SELECT * FROM rubriques';
+                        $table = $connection->query($sql);
+                        while ($ligne = $table->fetch()) {
+                            $idRub = $ligne['RUB_ID'];
+                            $nomRub = $ligne['RUB_NOM'];
+                            ?>
+                            <option value='<?php echo $idRub ?>'><?php echo $nomRub ?></option>
                             <?php
-                            $sql = 'SELECT * FROM rubriques';
-                            $table = $connection->query($sql);
-                            while ($ligne = $table->fetch()) {
-                                $idRub = $ligne['RUB_ID'];
-                                $nomRub = $ligne['RUB_NOM'];
-                                ?>
-                                <option value='<?php echo $idRub ?>'><?php echo $nomRub ?></option>
-    <?php
-    }
-    $table->closeCursor();
-    ?>
-                            <option value="ajoutRub">Ajouter</option>
-                        </select></br>
+                        }
+                        $table->closeCursor();
+                        ?>
+                        <option value="ajoutRub">Ajouter</option>
+                    </select></br>
 
                     <br/>
                     Date de parution :
                     <input type="date" name="date" value=""/><br/>
                     <br/>
+                    <input type="text" name="résumé" value="" placeholder="Resume" required/><br/>
+                    État : </br>
+                    <select id='select_etat'name='resume'required>
+                        <option value=''>Choisir :</option>
+                        <option value='A'>Abimé</option>
+                        <option value='C'>Correct</option>
+                        <option value='N'>Neuf</option>
+                    </select></br> 
+                    
                     <input type="submit" value="Valider"/>
                     </p>
 
