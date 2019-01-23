@@ -32,6 +32,8 @@
 
                     $sql = "INSERT INTO emprunter (LIV_ISBN, CLIENT_ID, EMP_ID, EMP_DATE, EMP_ETAT, EMP_DATE_R_MAX, EMP_DATE_R_REEL) VALUES ('" . $isbn . "', '" . $client . "', default, '" . $date . "', '0', '" . $dateRMax . "', NULL);";
                     $connection->exec($sql);
+                    $sql="update livre set LIV_EMPRUNTER=1 where LIV_ISBN='".$isbn."'";
+                    $connection->exec($sql);
 
                     echo "Emprunt ajouté.";
                     ?>
