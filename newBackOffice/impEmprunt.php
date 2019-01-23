@@ -27,7 +27,6 @@
                     <div id="divImpr">  <!--Ce div permet de délimiter la zone d'impression pour les emprunts-->
                         <table>
                             <tr>
-                                <th>Couverture</th>
                                 <th>Client</th>
                                 <th>Client tel</th>
                                 <th>N°ISBN</th>
@@ -39,7 +38,6 @@
                             </tr>
                             <?php
                             while ($ligne = $table->fetch()) {
-                                $CLIENT_IMG=$ligne['CLIENT_PHOTO'];
                                 $LIV_ISBN = $ligne["LIV_ISBN"];
                                 $CLIENT_NOM = $ligne["CLIENT_NOM"];
                                 $CLIENT_PRENOM = $ligne["CLIENT_PRENOM"];
@@ -59,7 +57,6 @@
                                 }
                                 ?>
                                 <tr>
-                                    <td><a href="../images/client/cli_<?php echo $CLIENT_IMG?>.jpg"><img src="../images/client/cli_<?php echo $CLIENT_IMG?>.jpg" width="50px" height="50px"/></a></td>
                                     <td><?php echo $CLIENT_NOM . " " . $CLIENT_PRENOM; ?></td>
                                     <td><?php echo $CLIENT_TEL; ?></td>
                                     <td><?php echo $LIV_ISBN; ?></td>

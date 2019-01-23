@@ -1,30 +1,22 @@
 <p>
-    <select id="select_recherche" name="auteurnom">
-        <?php
-        require '../../sqlconnect.php';
-        $sql = 'SELECT *  FROM auteur;';
-        $table = $connection->query($sql);
-        while ($ligne = $table->fetch()) {
-            $AUT_NUM = $ligne['AUT_NUM'];
-            $AUT_NOM = $ligne['AUT_NOM'];
-            $AUT_PRENOM = $ligne['AUT_PRENOM'];
-            ?>
+<input id="nomAuteur" type="text" name="nomAuteur" value="" placeholder="Nom"/><br>
+<input id="prenomAuteur" type="text" name="prenomAuteur" value="" placeholder="Prenom"/><br>
+<button type="button" id="button">Rechercher</button>
+</p>
 
-            <option  value="<?php echo $AUT_NUM; ?>"><?php echo $AUT_NOM . " " . $AUT_PRENOM; ?></option>
-        <?php }
-        ?>
-    </select><br>
-    <button type="button" id="button">Rechercher</button>
-</p><br>
 <div id="etape3">
-</div>
-<script>
-    var button = document.getElementById('button');
 
-    button.addEventListener('click', function () {
-        var nomAuteur = document.getElementById('select_recherche').value;
-        $.ajax({url: "rechercheSuppr/resu_recherche.php", data: {nomAuteur: nomAuteur}, success: function (result) {
-                $("#etape3").html(result);
-            }});
-    })
+</div>
+
+<script>
+var button = document.getElementById('button');
+
+button.addEventListener('click', function() {
+  var nomAuteur = document.getElementById('nomAuteur').value;
+  
+
+  $.ajax({url: "rechercheSuppr/resu_recherche.php", data: {nomAuteur: nomAuteur}, success: function(result){
+      $("#etape3").html(result);
+  }});
+})
 </script>

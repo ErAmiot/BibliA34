@@ -101,17 +101,15 @@
                     Date de parution :
                     <input type="date" name="date" value=""/><br/>
                     <br/>
-                    Etat :
-                    <select name="etat">
+                    <input type="text" name="résumé" value="" placeholder="Resume" required/><br/>
+                    État : </br>
+                    <select id='select_etat'name='resume'required>
                         <option value=''>Choisir :</option>
-                        <option value="abime">Abimé</option>
-                        <option value="correct">Correct</option>
-                        <option value="neuf">Neuf</option>
-                    </select><br/>
-                    <br/>
-                    Resume :<br/>
-                    <textarea name="resume" style="margin: 0px; height: 80px; width: 400px;"></textarea><br/>
-                    <br/>
+                        <option value='A'>Abimé</option>
+                        <option value='C'>Correct</option>
+                        <option value='N'>Neuf</option>
+                    </select></br> 
+                    
                     <input type="submit" value="Valider"/>
                     </p>
 

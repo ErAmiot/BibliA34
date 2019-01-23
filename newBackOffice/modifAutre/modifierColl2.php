@@ -26,7 +26,7 @@
         $table = $connection->query($sql);
         while ($ligne = $table->fetch()) {
             $nomCol = $ligne['COL_NOM'];
-            $nomEdit = $ligne['EDIT_NUM'];            
+            $nomEdit = $ligne['EDIT_NOM'];            
         }
         $table->closeCursor();
         ?>
@@ -36,13 +36,10 @@
             <select name="editeur">
                 <?php
                 $sql = 'SELECT EDIT_NUM, EDIT_NOM FROM editeur';
-                echo $sql.'<br>';
                 $table = $connection->query($sql);
                 while($ligne = $table->fetch()) {
                     $EDIT_NOM = $ligne['EDIT_NOM'];
-                    echo $EDIT_NOM.'<br>';
                     $EDIT_NUM = $ligne['EDIT_NUM'];
-                    echo $EDIT_NUM;
                     if($EDIT_NOM == $nomEdit)
                     {
                         $selected = 'selected';

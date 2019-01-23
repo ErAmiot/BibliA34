@@ -14,7 +14,7 @@
             require '../sqlconnect.php';
             ?>
             <div id="current_page">
-                <h1>Emprunt</h1><h2>Connecté(e) : <?php echo $_SESSION['LOGID']; ?></h2>
+                <h1>Emprunt</h1><h2>Connecté(e) : <?php echo $_SESSION['LOGID'];?></h2>
             </div>
             <div id="main_content">
                 <div id="fullEmprunt">
@@ -29,48 +29,45 @@
                         <form class="" action="triEmprunt/emprunter.php" method="post">
                             <!--startprint-->
                             <div id="divImpr">  <!--Ce div permet de délimiter la zone d'impression pour les emprunts-->
-                                <table>
+                            <table>
+                                <tr>
+                                    <th>Client</th>
+                                    <th>Client tel</th>
+                                    <th>N°ISBN</th>
+                                    <th>Titre</th>
+                                    <th>Date emprunt</th>
+                                    <th>Date retour max</th>
+                                    <th>Rendre ?</th>
+                                </tr>
+                                <?php
+                                while ($ligne = $table->fetch()) {
+                                    $LIV_ISBN = $ligne["LIV_ISBN"];
+                                    $CLIENT_NOM = $ligne["CLIENT_NOM"];
+                                    $CLIENT_PRENOM = $ligne["CLIENT_PRENOM"];
+                                    $LIV_TITRE = $ligne["LIV_TITRE"];
+                                    $CLIENT_TEL = $ligne["CLIENT_TEL"];
+                                    $EMP_ID = $ligne["EMP_ID"];
+                                    $EMP_DATE = $ligne["EMP_DATE"];
+                                    $EMP_DATE_R_MAX = $ligne["EMP_DATE_R_MAX"];
+                                    /*if ($ligne["EMP_ETAT"] == 1) {
+                                        $EMP_ETAT = "Rendu";
+                                    } elseif ($ligne["EMP_ETAT"] == 0) {
+                                        $EMP_ETAT = 'Non-rendu';
+                                    }*/
+                                    ?>
                                     <tr>
-                                        <th>Couverture</th>
-                                        <th>Client</th>
-                                        <th>Client tel</th>
-                                        <th>N°ISBN</th>
-                                        <th>Titre</th>
-                                        <th>Date emprunt</th>
-                                        <th>Date retour max</th>
-                                        <th>Rendre ?</th>
+                                        <td><?php echo $CLIENT_NOM . " " . $CLIENT_PRENOM; ?></td>
+                                        <td><?php echo $CLIENT_TEL; ?></td>
+                                        <td><?php echo $LIV_ISBN; ?></td>
+                                        <td><?php echo $LIV_TITRE; ?></td>
+                                        <td><?php echo $EMP_DATE; ?></td>
+                                        <td><?php echo $EMP_DATE_R_MAX; ?></td>
+                                        <td><input type="checkbox" name="rendre[]" value="<?php echo $EMP_ID ?>"></td>
                                     </tr>
                                     <?php
-                                    while ($ligne = $table->fetch()) {
-                                        $CLIENT_IMG = $ligne['CLIENT_PHOTO'];
-                                        $LIV_ISBN = $ligne["LIV_ISBN"];
-                                        $CLIENT_NOM = $ligne["CLIENT_NOM"];
-                                        $CLIENT_PRENOM = $ligne["CLIENT_PRENOM"];
-                                        $LIV_TITRE = $ligne["LIV_TITRE"];
-                                        $CLIENT_TEL = $ligne["CLIENT_TEL"];
-                                        $EMP_ID = $ligne["EMP_ID"];
-                                        $EMP_DATE = $ligne["EMP_DATE"];
-                                        $EMP_DATE_R_MAX = $ligne["EMP_DATE_R_MAX"];
-                                        /* if ($ligne["EMP_ETAT"] == 1) {
-                                          $EMP_ETAT = "Rendu";
-                                          } elseif ($ligne["EMP_ETAT"] == 0) {
-                                          $EMP_ETAT = 'Non-rendu';
-                                          } */
-                                        ?>
-                                        <tr>
-                                            <td><a href="../images/client/cli_<?php echo $CLIENT_IMG ?>.jpg"><img src="../images/client/cli_<?php echo $CLIENT_IMG ?>.jpg" width="50px" height="50px"/></a></td>
-                                            <td><?php echo $CLIENT_NOM . " " . $CLIENT_PRENOM; ?></td>
-                                            <td><?php echo $CLIENT_TEL; ?></td>
-                                            <td><?php echo $LIV_ISBN; ?></td>
-                                            <td><?php echo $LIV_TITRE; ?></td>
-                                            <td><?php echo $EMP_DATE; ?></td>
-                                            <td><?php echo $EMP_DATE_R_MAX; ?></td>
-                                            <td><input type="checkbox" name="rendre[]" value="<?php echo $EMP_ID ?>"></td>
-                                        </tr>
-                                        <?php
-                                    }
-                                    ?>
-                                </table>
+                                }
+                                ?>
+                            </table>
                             </div>
                             <!--endprint-->
                             <input type="submit" value="Rendre">
@@ -81,7 +78,7 @@
                         ?></br><?php
                     }
                     ?>
-                    <button onClick="location.href = 'ajoutEmprunt.php';" >Ajouter un emprunt</button>
+                  <button onClick="location.href = 'ajoutEmprunt.php';" >Ajouter un emprunt</button>
                 </div>
 
                 <script>
@@ -124,11 +121,11 @@
                     });
                 </script>
 
-                <?php
-            } else {
-                header('Location: backlogin.html');
-            }
-            ?>
+    <?php
+} else {
+    header('Location: backlogin.html');
+}
+?>
         </div>
     </body>
 </html>

@@ -20,10 +20,8 @@
         $date=htmlentities($_GET["date"]);
         $col=htmlentities($_GET["col"]);
         $rub=htmlentities($_GET["rubrique"]);
-        $etat=htmlentities($_GET["etat"]);
-        $resume=htmlentities($_GET["resume"]);
         $sql3 = "UPDATE correspondre SET RUB_ID = '".$rub."' WHERE LIV_ISBN = '".$isbn."';";
-        $sql="UPDATE livre SET LIV_TITRE='".$titre."',EDIT_NUM='".$editeur."',LIV_DATE='".$date."',COL_NUM='".$col."', LIV_ETAT='".$etat."', LIV_RESUME='".$resume."' WHERE LIV_ISBN = '".$isbn."';";
+        $sql="UPDATE livre SET LIV_TITRE='".$titre."',EDIT_NUM='".$editeur."',LIV_DATE='".$date."',COL_NUM='".$col."' WHERE LIV_ISBN = '".$isbn."';";
         $sql2="UPDATE ecrire SET AUT_NUM='".$auteur."' WHERE LIV_ISBN = '".$isbn."';";
         $connection->exec($sql3);
         $connection->exec($sql);
