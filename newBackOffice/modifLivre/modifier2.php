@@ -33,6 +33,8 @@
             $editeur = $ligne['EDIT_NOM'];
             $collection = $ligne['COL_NUM'];
             $rubrique = $ligne['RUB_NOM'];
+            $resume = $ligne['LIV_RESUME'];
+            $etat = $ligne['LIV_ETAT'];
         }
         $table->closeCursor();
         ?>
@@ -119,10 +121,17 @@
                             }
                             $table->closeCursor();
                             ?>
-                    </select></br></rb>
+                    </select></br></br>
+                    <select name="etat">
+                        <option value=''>Etat</option>
+                        <option value="abime">Abimé</option>
+                        <option value="correct">Correct</option>
+                        <option value="neuf">Neuf</option>
+                    </select></br></br>
 
             <input name="titre" value="<?php echo $titre ?>" type="text" placeholder="Titre"></br>
-            <input name="date" value="<?php echo $date ?>" type="text" placeholder="Date de parution (optionnel)">
+            <input name="date" value="<?php echo $date ?>" type="text" placeholder="Date de parution (optionnel)"><br/>
+            <textarea name="resume" style="margin: 0px; height: 80px; width: 400px;"><?php echo $resume ?></textarea>
             <br/><input type="submit" value="Valider"/>
         </form>
         <br/>

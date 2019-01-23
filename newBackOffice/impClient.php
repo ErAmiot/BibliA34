@@ -27,6 +27,7 @@
                     <div id="divImpr">
                         <table>
                             <tr>
+                                <th>Photo</th>
                                 <th>Nom</th>
                                 <th>Prénom</th>
                                 <th>Téléphone</th>
@@ -40,8 +41,10 @@
                                 $telclient = $ligne["CLIENT_TEL"];
                                 $adrclient = $ligne["CLIENT_ADR"];
                                 $villeclient = $ligne["CLIENT_VILLE"];
+                                $photoclient = $ligne["CLIENT_PHOTO"];
                                 ?>
                                 <tr>
+                                    <td><a href="../images/client/cli_<?php echo $photoclient?>.jpg"><img src="../images/client/cli_<?php echo $photoclient?>.jpg" width="50px" height="50px"/></a></td>
                                     <td><?php echo $nomclient; ?></td>
                                     <td><?php echo $prenomclient; ?></td>
                                     <td><?php echo $telclient; ?></td>
