@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 23 jan. 2019 à 14:26
+-- Généré le :  mer. 23 jan. 2019 à 15:24
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -212,6 +212,7 @@ CREATE TABLE IF NOT EXISTS `livre` (
   `LIV_IMG` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `LIV_RESUME` varchar(1000) COLLATE utf8_bin DEFAULT NULL,
   `LIV_ETAT` varchar(1000) COLLATE utf8_bin DEFAULT NULL,
+  `LIV_EMPRUNTER` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`LIV_ISBN`),
   KEY `APPARTIENT_FK` (`COL_NUM`),
   KEY `EDITER_FK` (`EDIT_NUM`)
@@ -221,8 +222,8 @@ CREATE TABLE IF NOT EXISTS `livre` (
 -- Déchargement des données de la table `livre`
 --
 
-INSERT INTO `livre` (`LIV_ISBN`, `COL_NUM`, `EDIT_NUM`, `LIV_TITRE`, `LIV_DATE`, `LIV_IMG`, `LIV_RESUME`, `LIV_ETAT`) VALUES
-('978-2-4090-0962-4', 4, 5, 'MariaDB Administration et optimisation', '2017-06-15', 'mariadb', 'Bonsoir', 'correct');
+INSERT INTO `livre` (`LIV_ISBN`, `COL_NUM`, `EDIT_NUM`, `LIV_TITRE`, `LIV_DATE`, `LIV_IMG`, `LIV_RESUME`, `LIV_ETAT`, `LIV_EMPRUNTER`) VALUES
+('978-2-4090-0962-4', 4, 5, 'MariaDB Administration et optimisation', '2017-06-15', 'mariadb', 'Bonsoir', 'correct', 0);
 
 -- --------------------------------------------------------
 
