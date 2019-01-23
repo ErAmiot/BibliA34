@@ -27,6 +27,7 @@
                     <div id="divImpr">  <!--Ce div permet de délimiter la zone d'impression pour les emprunts-->
                         <table>
                             <tr>
+                                <th>Photo</th>
                                 <th>Client</th>
                                 <th>Client tel</th>
                                 <th>N°ISBN</th>
@@ -44,14 +45,17 @@
                                 $EMP_ID = $ligne["EMP_ID"];
                                 $EMP_DATE = $ligne["EMP_DATE"];
                                 $EMP_DATE_R_MAX = $ligne["EMP_DATE_R_MAX"];
+                                $CLIENT_IMG=$ligne['CLIENT_PHOTO'];
                                 ?>
                                 <tr>
+                                    <td><a href="../images/client/cli_<?php echo $CLIENT_IMG?>.jpg"><img src="../images/client/cli_<?php echo $CLIENT_IMG?>.jpg" width="50px" height="50px"/></a></td>
                                     <td><?php echo $CLIENT_NOM . " " . $CLIENT_PRENOM; ?></td>
                                     <td><?php echo $CLIENT_TEL; ?></td>
                                     <td><?php echo $LIV_ISBN; ?></td>
                                     <td><?php echo $LIV_TITRE; ?></td>
                                     <td><?php echo $EMP_DATE; ?></td>
                                     <td><?php echo $EMP_DATE_R_MAX; ?></td>
+                                   
                                 </tr>
                                 <?php
                             }

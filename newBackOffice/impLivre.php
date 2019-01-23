@@ -33,6 +33,7 @@
                     <div id="divImpr">
                         <table>
                             <tr>
+                                <th>Image</th>
                                 <th>Titre</th>
                                 <th>N° ISBN</th>
                                 <th>Auteur</th>
@@ -51,8 +52,10 @@
                                 $AUT_NOM = $ligne["AUT_NOM"];
                                 $AUT_PRENOM = $ligne["AUT_PRENOM"];
                                 $RUB_NOM = $ligne["RUB_NOM"];
+                                $LIV_IMG=$ligne["LIV_IMG"];
                                 ?>
                                 <tr>
+                                    <td><a href="../images/livre/liv_<?php echo    $LIV_IMG ?>.jpg"><img src="../images/livre/liv_<?php echo    $LIV_IMG ?>.jpg" width="50px" height="50px"/></a></td>
                                     <td><?php echo $LIV_TITRE; ?></td>
                                     <td><?php echo $LIV_ISBN; ?></td>
                                     <td><?php echo $AUT_NOM . " " . $AUT_PRENOM; ?></td>
