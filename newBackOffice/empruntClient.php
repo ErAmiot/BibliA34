@@ -22,6 +22,7 @@
                 <?php } ?>
             </div>
         <center><h2>Mes emprunts : </h2></center>
+        <form class="" action="donnerAvis.php" method="post">
         <table
             <tr>
                 <th>Image</th>
@@ -29,7 +30,9 @@
                 <th>Date d'emprunt</th>
                 <th>Date d'emprunt maximale</th>
                 <th>Date rendu</th>
+                <th>Donner votre avis</th>
             </tr>
+            
 
             <?php
             $user_id = $_SESSION['CLIENT_ID'];
@@ -45,13 +48,16 @@
                                                             <th>' . $donnees['EMP_DATE'] . '</th>
                                                             <th>' . $donnees['EMP_DATE_R_MAX'] . '</th>
                                                             <th>' . $donnees['EMP_DATE_R_REEL'] . '</th>
+                                                            <th><input type="radio" name="avis" value="'.$donnees1['LIV_ISBN'].'"></th>
                                                         </tr>';
 
                     echo $don;
                 }
             }
             ?>
-        </table>
+        </table><br>
+        <center><input type="submit" value="Donner votre avis"></center>
+        </form>
         <?php
     }
     ?>

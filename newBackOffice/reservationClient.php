@@ -24,8 +24,10 @@
                         <p>Nouvelle réservation : </p>
                         <div id="ajoutempruntisbn">
                             <p>Titre du livre :</p>
-                            <?php while ($aff = $nb->fetch()) {
+                            <?php
+                            while ($aff = $nb->fetch()) {
                                 if ($aff['nb_livre'] >= 1) {
+                                    $flag = false;
                                     ?>
                                     <select id="select_recherche" name="isbn">
                                         <?php
@@ -39,10 +41,11 @@
                                             $LIV_ISBN = $ligne['LIV_ISBN'];
                                             $LIV_TITRE = $ligne['LIV_TITRE'];
                                             ?>
-                                            <option value='<?php echo $LIV_ISBN ?>'><?php echo $LIV_TITRE ?></option></br>
+                                            <option value='<?php echo $LIV_ISBN ?>'><?php echo $LIV_TITRE ?></option>
+                                            </select>
 
                                             <?php
-                                        }
+                                        }                                       
                                         $table->closeCursor();
                                     } else {
                                         ?>
@@ -50,11 +53,15 @@
                                         <?php
                                     }
                                 }
-                                ?>
-                            </select>
+                                ?>                            
                         </div>
-                        <br>
-                        <input type="submit" value="Valider"/>
+                        <br>         
+                        <?php
+                         if (isset($flag)) {
+                              echo '<input type="submit" value="Valider"/>';
+                         }
+                         
+                        ?>
                         <input type="button" onClick="location.href = 'accueilClient.php';" value="Retour"/>
                     </form>
                     </p>
@@ -62,9 +69,9 @@
             </div>
         </body>
 
-    <?php
-} else {
-    header('Location: loginClient.php');
-}
-?>
+        <?php
+    } else {
+        header('Location: loginClient.php');
+    }
+    ?>
 </html>
