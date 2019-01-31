@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <title>Accès BackOffice</title>
     </head>
-    <body onload="location.href = '../index.php';">
+    <body>
         <?php
         session_start();
         if (isset($_SESSION['LOGID'])) {
@@ -14,7 +14,6 @@
             <?php
             $titre = htmlentities($_POST["titre"]);
             $auteur = $_POST["auteur"];
-            var_dump($auteur);
             $collection = htmlentities($_POST["collection"]);
             $editeur = htmlentities($_POST["editeur"]);
             $rubrique = $_POST["rubrique"];
@@ -23,15 +22,29 @@
             $resume = htmlentities($_POST["resume"]);
             $etat = htmlentities($_POST["etat"]);
             require '../../sqlconnect.php';
-            $sql = "INSERT INTO livre (LIV_ISBN, COL_NUM, EDIT_NUM, LIV_TITRE, LIV_DATE, LIV_RESUME, LIV_ETAT) VALUES ('" . $isbn . "', '" . $collection . "', '" . $editeur . "', '" . $titre . "','" . $date . "', '" . $resume . "', '" . $etat . "');";
-            $connection->exec($sql);
+            $sql = $connection->prepare('INSERT INTO livre(LIV_ISBN, COL_NUM, EDIT_NUM, LIV_TITRE, LIV_DATE, LIV_RESUME, LIV_ETAT) VALUES(:ISBN, :collection, :editeur, :titre, :date, :resume, :etat)');
+            $sql->execute(array(
+                'ISBN' => $isbn,
+                'collection' => $collection,
+                'editeur' => $editeur,
+                'titre' => $titre,
+                'date' => $date,
+                'resume' => $resume,
+                'etat' => $etat
+            )) or die(print_r($connection->errorInfo()));;
             foreach ($auteur as $aut) {
-                $sql2 = "INSERT INTO ecrire (AUT_NUM, LIV_ISBN) VALUES ('" . $aut . "', '" . $isbn . "');";
-            $connection->exec($sql2);
+                $sql2 = $connection->prepare('INSERT INTO ecrire(AUT_NUM, LIV_ISBN) VALUES(:aut, :ISBN');
+            $sql2->execute(array(
+                'aut' => $aut,
+                'ISBN' => $isbn
+            ));
             }
             foreach ($rubrique as $rub) {
-                $sql3 = "INSERT INTO correspondre (RUB_ID, LIV_ISBN) VALUES ('" . $rub . "', '" . $isbn . "');";
-            $connection->exec($sql3);
+                $sql3 = $connection->prepare('INSERT INTO correspondre(RUB_ID, LIV_ISBN) VALUES(:rub, :ISBN)');
+            $sql3->execute(array(
+                'rub' => $rub,
+                'ISBN' => $isbn
+            ));
             }
 
 
