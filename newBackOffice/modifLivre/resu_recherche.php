@@ -4,17 +4,14 @@ require '../../sqlconnect.php';
 if (isset($_GET["nomAuteur"])) {
 
     $nomAuteur = htmlentities($_GET["nomAuteur"]);
+    $sql2 = 'SELECT * from livre, auteur, ecrire, editeur, collection '
+            . 'where livre.LIV_ISBN=ecrire.LIV_ISBN '
+            . 'and editeur.EDIT_NUM=livre.EDIT_NUM '
+            . 'and livre.COL_NUM=collection.COL_NUM '
+            . 'and auteur.AUT_NUM=ecrire.AUT_NUM '
+            . 'and auteur.AUT_NUM=' . $nomAuteur . '';
 
-    $sql = "SELECT  *  FROM livre, auteur, ecrire, collection, correspondre, editeur, rubriques "
-            . "WHERE livre.EDIT_NUM = editeur.EDIT_NUM "
-            . "AND livre.LIV_ISBN = ecrire.LIV_ISBN "
-            . "AND correspondre.RUB_ID = rubriques.RUB_ID "
-            . "AND ecrire.AUT_NUM =  '" . $nomAuteur . "' "
-            . "AND auteur.AUT_NUM =  '" . $nomAuteur . "' "
-            . "AND livre.COL_NUM = collection.COL_NUM "
-            . "AND livre.LIV_ISBN = correspondre.LIV_ISBN ;";
-
-    $table = $connection->query($sql);
+    $table = $connection->query($sql2);
     $count = $table->rowCount();
     if ($count > 0) {
         ?>
@@ -24,35 +21,32 @@ if (isset($_GET["nomAuteur"])) {
                     <th>Couverture</th>
                     <th>Titre</th>
                     <th>N° ISBN</th>
-                    <th>Auteur</th>
                     <th>Editeur</th>
                     <th>Collection</th>
-                    <th>Rubrique</th>
+                    <th>Rubrique(s)</th>
                     <th>Date</th>
                     <th>Livre a modifier</th>
                 </tr>
                 <?php
                 while ($ligne = $table->fetch()) {
-                    $LIV_IMG=$ligne['LIV_IMG'];
-                    $LIV_ISBN = $ligne["LIV_ISBN"];
-                    $COL_NOM = $ligne["COL_NOM"];
-                    $EDIT_NOM = $ligne["EDIT_NOM"];
-                    $LIV_TITRE = $ligne["LIV_TITRE"];
-                    $LIV_DATE = $ligne["LIV_DATE"];
-                    $AUT_NOM = $ligne["AUT_NOM"];
-                    $AUT_PRENOM = $ligne["AUT_PRENOM"];
-                    $RUB_NOM = $ligne["RUB_NOM"];
+                    $sql = 'select * from rubriques, correspondre '
+                            . 'where correspondre.RUB_ID=rubriques.RUB_ID '
+                            . 'and correspondre.LIV_ISBN="' . $ligne["LIV_ISBN"] . '"';
+                    $table2 = $connection->query($sql);
                     ?>
                     <tr>
-                        <td><a href="../images/livre/liv_<?php echo $LIV_IMG?>.jpg"><img src="../images/livre/liv_<?php echo $LIV_IMG?>.jpg" width="50px" height="50px"/></a></td>
-                        <td><?php echo $LIV_TITRE; ?></td>
-                        <td><?php echo $LIV_ISBN; ?></td>
-                        <td><?php echo $AUT_NOM . " " . $AUT_PRENOM; ?></td>
-                        <td><?php echo $EDIT_NOM; ?></td>
-                        <td><?php echo $COL_NOM; ?></td>
-                        <td><?php echo $RUB_NOM; ?></td>
-                        <td><?php echo $LIV_DATE; ?></td>
-                        <td><input type="radio" name="modif" value="<?php echo $LIV_ISBN ?>"></td>
+                        <td><a href="../images/livre/liv_<?php echo $ligne['LIV_IMG'] ?>.jpg"><img src="../images/livre/liv_<?php echo $ligne['LIV_IMG'] ?>.jpg" width="50px" height="50px"/></a></td>
+                        <td><?php echo $ligne["LIV_TITRE"]; ?></td>
+                        <td><?php echo $ligne["LIV_ISBN"]; ?></td>
+                        <td><?php echo $ligne["EDIT_NOM"]; ?></td>
+                        <td><?php echo $ligne["COL_NOM"]; ?></td>
+                        <td><?php
+                            while ($donnee = $table2->fetch()) {
+                                echo $donnee['RUB_NOM'] . '<br>';
+                            }
+                            ?></td>
+                        <td><?php echo $ligne["LIV_DATE"]; ?></td>
+                        <td><input type="radio" name="modif" value="<?php echo $ligne["LIV_ISBN"] ?>"></td>
                     </tr>
                     <?php
                 }
@@ -67,7 +61,10 @@ if (isset($_GET["nomAuteur"])) {
 } elseif (isset($_GET["motclef"])) {
     $motclef = htmlentities($_GET["motclef"]);
 
-    $sql = "SELECT *  FROM livre, auteur, ecrire, collection, correspondre, rubriques, editeur WHERE livre.EDIT_NUM = editeur.EDIT_NUM AND livre.LIV_ISBN = ecrire.LIV_ISBN AND correspondre.RUB_ID = rubriques.RUB_ID and ecrire.AUT_NUM = auteur.AUT_NUM and livre.COL_NUM = collection.COL_NUM and livre.LIV_ISBN = correspondre.LIV_ISBN and (livre.LIV_TITRE LIKE '%$motclef%' OR auteur.AUT_NOM LIKE '%$motclef%' OR auteur.AUT_PRENOM LIKE '%$motclef%') ";
+    $sql = "SELECT *  FROM livre, collection, editeur "
+            . "WHERE livre.EDIT_NUM = editeur.EDIT_NUM "
+            . "and livre.COL_NUM = collection.COL_NUM "
+            . "and livre.LIV_TITRE LIKE '%$motclef%'";
     $table = $connection->query($sql);
     $count = $table->rowCount();
     if ($count > 0) {
@@ -81,36 +78,43 @@ if (isset($_GET["nomAuteur"])) {
                     <th>Auteur</th>
                     <th>Editeur</th>
                     <th>Collection</th>
-                    <th>Rubrique</th>
+                    <th>Rubrique(s)</th>
                     <th>Date</th>
                     <th>Livre a modifier</th>
                 </tr>
-        <?php
-        while ($ligne = $table->fetch()) {
-            $LIV_IMG=$ligne['LIV_IMG'];
-            $LIV_ISBN = $ligne["LIV_ISBN"];
-            $COL_NOM = $ligne["COL_NOM"];
-            $EDIT_NOM = $ligne["EDIT_NOM"];
-            $LIV_TITRE = $ligne["LIV_TITRE"];
-            $LIV_DATE = $ligne["LIV_DATE"];
-            $AUT_NOM = $ligne["AUT_NOM"];
-            $AUT_PRENOM = $ligne["AUT_PRENOM"];
-            $RUB_NOM = $ligne["RUB_NOM"];
-            ?>
+                <?php
+                while ($ligne = $table->fetch()) {
+                    $sql2 = 'select * from rubriques, correspondre '
+                            . 'where correspondre.RUB_ID=rubriques.RUB_ID '
+                            . 'and correspondre.LIV_ISBN="' . $ligne["LIV_ISBN"] . '"';
+                    $table2 = $connection->query($sql2);
+                    $sql3 = 'select * from ecrire, auteur '
+                            . 'where auteur.AUT_NUM=ecrire.AUT_NUM '
+                            . 'and ecrire.LIV_ISBN="' . $ligne['LIV_ISBN'] . '"';
+                    $table3 = $connection->query($sql3);
+                    ?>
                     <tr>
-                        <td><a href="../images/livre/liv_<?php echo $LIV_IMG?>.jpg"><img src="../images/livre/liv_<?php echo $LIV_IMG?>.jpg" width="50px" height="50px"/></a></td>
-                        <td><?php echo $LIV_TITRE; ?></td>
-                        <td><?php echo $LIV_ISBN; ?></td>
-                        <td><?php echo $AUT_NOM . " " . $AUT_PRENOM; ?></td>
-                        <td><?php echo $EDIT_NOM; ?></td>
-                        <td><?php echo $COL_NOM; ?></td>
-                        <td><?php echo $RUB_NOM; ?></td>
-                        <td><?php echo $LIV_DATE; ?></td>
-                        <td><input type="radio" name="modif" value="<?php echo $LIV_ISBN ?>"></td>
+                        <td><a href="../images/livre/liv_<?php echo $ligne['LIV_IMG'] ?>.jpg"><img src="../images/livre/liv_<?php echo $ligne['LIV_IMG'] ?>.jpg" width="50px" height="50px"/></a></td>
+                        <td><?php echo $ligne["LIV_TITRE"]; ?></td>
+                        <td><?php echo $ligne["LIV_ISBN"]; ?></td>
+                        <td><?php
+                            while ($donnee = $table3->fetch()) {
+                                echo $donnee['AUT_PRENOM'] . ' ' . $donnee['AUT_NOM'] . '<br>';
+                            }
+                            ?></td>
+                        <td><?php echo $ligne["EDIT_NOM"]; ?></td>
+                        <td><?php echo $ligne["COL_NOM"]; ?></td>
+                        <td><?php
+                            while ($donnee = $table2->fetch()) {
+                                echo $donnee['RUB_NOM'] . '<br>';
+                            }
+                            ?></td>
+                        <td><?php echo $ligne["LIV_DATE"]; ?></td>
+                        <td><input type="radio" name="modif" value="<?php echo $ligne["LIV_ISBN"] ?>"></td>
                     </tr>
-            <?php
-        }
-        ?>
+                    <?php
+                }
+                ?>
             </table>
             <input type="submit" value="Modifier">
         </form>
@@ -121,15 +125,11 @@ if (isset($_GET["nomAuteur"])) {
 } elseif (isset($_GET["isbn"])) {
     $isbn = htmlentities($_GET["isbn"]);
 
-    $sql = "SELECT *  FROM livre, auteur, ecrire, collection, correspondre, rubriques, editeur "
-            . "WHERE livre.EDIT_NUM = editeur.EDIT_NUM "
-            . "AND livre.LIV_ISBN = ecrire.LIV_ISBN "
-            . "and ecrire.AUT_NUM = auteur.AUT_NUM "
-            . "AND correspondre.RUB_ID = rubriques.RUB_ID "
-            . "and livre.COL_NUM = collection.COL_NUM "
-            . "and livre.LIV_ISBN = correspondre.LIV_ISBN "
-            . "and livre.LIV_ISBN = '" . $isbn . "'";
-    $table = $connection->query($sql);
+    $sql2 = 'SELECT DISTinct * from livre, editeur, collection '
+            . 'where editeur.EDIT_NUM=livre.EDIT_NUM '
+            . 'and livre.COL_NUM=collection.COL_NUM '
+            . 'and livre.LIV_ISBN="' . $isbn . '"';
+    $table = $connection->query($sql2);
     $count = $table->rowCount();
     if ($count > 0) {
         ?>
@@ -142,51 +142,58 @@ if (isset($_GET["nomAuteur"])) {
                     <th>Auteur</th>
                     <th>Editeur</th>
                     <th>Collection</th>
-                    <th>Rubrique</th>
+                    <th>Rubrique(s)</th>
                     <th>Date</th>
                     <th>Livre a modifier</th>
                 </tr>
-        <?php
-        while ($ligne = $table->fetch()) {
-            $LIV_IMG=$ligne['LIV_IMG'];
-            $LIV_ISBN = $ligne["LIV_ISBN"];
-            $COL_NOM = $ligne["COL_NOM"];
-            $EDIT_NOM = $ligne["EDIT_NOM"];
-            $LIV_TITRE = $ligne["LIV_TITRE"];
-            $LIV_DATE = $ligne["LIV_DATE"];
-            $AUT_NOM = $ligne["AUT_NOM"];
-            $AUT_PRENOM = $ligne["AUT_PRENOM"];
-            $RUB_NOM = $ligne["RUB_NOM"];
-            ?>
-                    <tr>
-                        <td><a href="../images/livre/liv_<?php echo $LIV_IMG?>.jpg"><img src="../images/livre/liv_<?php echo $LIV_IMG?>.jpg" width="50px" height="50px"/></a></td>
-                        <td><?php echo $LIV_TITRE; ?></td>
-                        <td><?php echo $LIV_ISBN; ?></td>
-                        <td><?php echo $AUT_NOM . " " . $AUT_PRENOM; ?></td>
-                        <td><?php echo $EDIT_NOM; ?></td>
-                        <td><?php echo $COL_NOM; ?></td>
-                        <td><?php echo $RUB_NOM; ?></td>
-                        <td><?php echo $LIV_DATE; ?></td>
-                        <td><input type="radio" name="modif" value="<?php echo $LIV_ISBN ?>"></td>
-                    </tr>
-            <?php
-        }
-        ?>
+                <?php
+                $ligne = $table->fetch();
+                ?>
+                <tr>
+                    <td><a href="../images/livre/liv_<?php echo $ligne['LIV_IMG']; ?>.jpg"><img src="../images/livre/liv_<?php echo $ligne['LIV_IMG']; ?>.jpg" width="50px" height="50px"/></a></td>
+                    <td><?php echo $ligne["LIV_TITRE"]; ?></td>
+                    <td><?php echo $ligne["LIV_ISBN"]; ?></td>
+                    <td><?php
+                        $sql = 'select * from ecrire, auteur '
+                                . 'where auteur.AUT_NUM=ecrire.AUT_NUM '
+                                . 'and ecrire.LIV_ISBN="' . $isbn . '"';
+                        $table = $connection->query($sql);
+                        while ($donnee = $table->fetch()) {
+                            echo $donnee['AUT_PRENOM'] . ' ' . $donnee['AUT_NOM'] . '<br>';
+                        }
+                        ?></td>
+                    <td><?php echo $ligne["EDIT_NOM"]; ?></td>
+                    <td><?php echo $ligne["COL_NOM"]; ?></td>
+                    <td><?php
+                        $sql = 'select * from rubriques, correspondre '
+                                . 'where correspondre.RUB_ID=rubriques.RUB_ID '
+                                . 'and correspondre.LIV_ISBN="' . $isbn . '"';
+                        $table = $connection->query($sql);
+                        while ($donnee = $table->fetch()) {
+                            echo $donnee['RUB_NOM'] . '<br>';
+                        }
+                        ?></td>
+                    <td><?php echo $ligne["LIV_DATE"]; ?></td>
+                    <td><input type="radio" name="modif" value="<?php echo $ligne["LIV_ISBN"] ?>"></td>
+                </tr>
             </table>
             <input type="submit" value="Modifier">
         </form>
-                <?php
-            } else {
-                echo "Aucun livre ne correspond a votre recherche.";
-            }
-        } elseif (isset($_GET['titre'])) {
-            $titre = htmlentities($_GET['titre']);
+        <?php
+    } else {
+        echo "Aucun livre ne correspond a votre recherche.";
+    }
+} elseif (isset($_GET['titre'])) {
+    $titre = htmlentities($_GET['titre']);
 
-            $sql = "SELECT *  FROM livre, auteur, ecrire, collection, correspondre, rubriques, editeur WHERE livre.EDIT_NUM = editeur.EDIT_NUM AND livre.LIV_ISBN = ecrire.LIV_ISBN and ecrire.AUT_NUM = auteur.AUT_NUM AND correspondre.RUB_ID = rubriques.RUB_ID and livre.COL_NUM = collection.COL_NUM and livre.LIV_ISBN = correspondre.LIV_ISBN and livre.LIV_TITRE = '" . $titre . "'";
-            $table = $connection->query($sql);
-            $count = $table->rowCount();
-            if ($count > 0) {
-                ?>
+    $sql2 = 'SELECT DISTinct * from livre, editeur, collection '
+            . 'where editeur.EDIT_NUM=livre.EDIT_NUM '
+            . 'and livre.COL_NUM=collection.COL_NUM '
+            . 'and livre.LIV_TITRE="' . $titre . '"';
+    $table = $connection->query($sql2);
+    $count = $table->rowCount();
+    if ($count > 0) {
+        ?>
         <form class="" action="modifLivre/modifier2.php" method="post">
             <table>
                 <tr>
@@ -196,42 +203,46 @@ if (isset($_GET["nomAuteur"])) {
                     <th>Auteur</th>
                     <th>Editeur</th>
                     <th>Collection</th>
-                    <th>Rubrique</th>
+                    <th>Rubrique(s)</th>
                     <th>Date</th>
                     <th>Livre a modifier</th>
                 </tr>
-        <?php
-        while ($ligne = $table->fetch()) {
-            $LIV_IMG=$ligne['LIV_IMG'];
-            $LIV_ISBN = $ligne["LIV_ISBN"];
-            $COL_NOM = $ligne["COL_NOM"];
-            $EDIT_NOM = $ligne["EDIT_NOM"];
-            $LIV_TITRE = $ligne["LIV_TITRE"];
-            $LIV_DATE = $ligne["LIV_DATE"];
-            $AUT_NOM = $ligne["AUT_NOM"];
-            $AUT_PRENOM = $ligne["AUT_PRENOM"];
-            $RUB_NOM = $ligne["RUB_NOM"];
-            ?>
-                    <tr>
-                        <td><a href="../images/livre/liv_<?php echo $LIV_IMG?>.jpg"><img src="../images/livre/liv_<?php echo $LIV_IMG?>.jpg" width="50px" height="50px"/></a></td>  
-                        <td><?php echo $LIV_TITRE; ?></td>
-                        <td><?php echo $LIV_ISBN; ?></td>
-                        <td><?php echo $AUT_NOM . " " . $AUT_PRENOM; ?></td>
-                        <td><?php echo $EDIT_NOM; ?></td>
-                        <td><?php echo $COL_NOM; ?></td>
-                        <td><?php echo $RUB_NOM; ?></td>
-                        <td><?php echo $LIV_DATE; ?></td>
-                        <td><input type="radio" name="modif" value="<?php echo $LIV_ISBN ?>"></td>
-                    </tr>
-            <?php
-        }
-        ?>
+                <?php
+                $ligne = $table->fetch();
+                ?>
+                <tr>
+                    <td><a href="../images/livre/liv_<?php echo $ligne['LIV_IMG'] ?>.jpg"><img src="../images/livre/liv_<?php echo $ligne['LIV_IMG'] ?>.jpg" width="50px" height="50px"/></a></td>  
+                    <td><?php echo $ligne["LIV_TITRE"]; ?></td>
+                    <td><?php echo $ligne["LIV_ISBN"]; ?></td>
+                    <td><?php
+                        $sql = 'select * from ecrire, auteur '
+                                . 'where auteur.AUT_NUM=ecrire.AUT_NUM '
+                                . 'and ecrire.LIV_ISBN="' . $ligne['LIV_ISBN'] . '"';
+                        $table = $connection->query($sql);
+                        while ($donnee = $table->fetch()) {
+                            echo $donnee['AUT_PRENOM'] . ' ' . $donnee['AUT_NOM'] . '<br>';
+                        }
+                        ?></td>
+                    <td><?php echo $ligne["EDIT_NOM"]; ?></td>
+                    <td><?php echo $ligne["COL_NOM"]; ?></td>
+                    <td><?php
+                        $sql = 'select * from rubriques, correspondre '
+                                . 'where correspondre.RUB_ID=rubriques.RUB_ID'
+                                . ' and correspondre.LIV_ISBN="' . $ligne["LIV_ISBN"] . '"';
+                        $table2 = $connection->query($sql);
+                        while ($donnee = $table2->fetch()) {
+                            echo $donnee['RUB_NOM'] . '<br>';
+                        }
+                        ?></td>
+                    <td><?php echo $ligne["LIV_DATE"]; ?></td>
+                    <td><input type="radio" name="modif" value="<?php echo $ligne["LIV_ISBN"] ?>"></td>
+                </tr>
             </table>
             <input type="submit" value="Modifier">
         </form>
-                <?php
-            } else {
-                echo "Aucun livre ne correspond a votre recherche.";
-            }
-        }
-        ?>
+        <?php
+    } else {
+        echo "Aucun livre ne correspond a votre recherche.";
+    }
+}
+?>

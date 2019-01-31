@@ -10,7 +10,7 @@ function get_header(){
       <script type="text/javascript" src="jquery.js"></script>
       <link rel="stylesheet" href="style.css" />
       <link rel="icon" href="favicon.ico" />
-      <title>Bibliothèque A31</title>
+      <title>Bibliothèque A34</title>
     </head>
     <body>
 <?php

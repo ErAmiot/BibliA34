@@ -162,6 +162,7 @@ input[type="button"],input[type="submit"],button{
     margin-top: 15px;
     margin-left: 15px;
     margin-right: 15px;
+    margin-bottom : 15px;
     background: rgb(69,76,88);
     color: white;
     font-size:18px;
