@@ -5,7 +5,7 @@
         <title>Accès BackOffice</title>
         <link rel="stylesheet" type="text/css" href="../style.css">
     </head>
-    <body >
+    <body  onload="location.href = '../index.php';">
         <?php
         //onload="location.href = '../index.php';"
         session_start();
@@ -16,7 +16,6 @@
             <?php
             $isbn = htmlentities($_GET["isbn"]);
             $auteur = $_GET["auteur"];
-            var_dump($auteur);
             $editeur = htmlentities($_GET["editeur"]);
             $titre = htmlentities($_GET["titre"]);
             $date = htmlentities($_GET["date"]);

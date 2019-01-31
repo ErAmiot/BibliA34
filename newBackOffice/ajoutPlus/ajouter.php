@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <title>Accès BackOffice</title>
     </head>
-    <body>
+    <body onload="location.href = '../index.php';">
         <?php
         //
         session_start();
