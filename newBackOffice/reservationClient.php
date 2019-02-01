@@ -37,30 +37,30 @@
 
 
                                         while ($ligne = $table->fetch()) {
-
                                             $LIV_ISBN = $ligne['LIV_ISBN'];
                                             $LIV_TITRE = $ligne['LIV_TITRE'];
                                             ?>
                                             <option value='<?php echo $LIV_ISBN ?>'><?php echo $LIV_TITRE ?></option>
-                                            </select>
 
-                                            <?php
-                                        }                                       
-                                        $table->closeCursor();
-                                    } else {
+
+                                            <?php }
                                         ?>
-                                        <p>Aucun livre disponible</p>
-                                        <?php
-                                    }
+                                    </select>
+                                    <?php
+                                    $table->closeCursor();
+                                } else {
+                                    ?>
+                                    <p>Aucun livre disponible</p>
+                                    <?php
                                 }
-                                ?>                            
+                            }
+                            ?>                            
                         </div>
                         <br>         
                         <?php
-                         if (isset($flag)) {
-                              echo '<input type="submit" value="Valider"/>';
-                         }
-                         
+                        if (isset($flag)) {
+                            echo '<input type="submit" value="Valider"/>';
+                        }
                         ?>
                         <input type="button" onClick="location.href = 'accueilClient.php';" value="Retour"/>
                     </form>

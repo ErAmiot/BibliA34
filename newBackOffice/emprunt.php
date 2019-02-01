@@ -31,7 +31,7 @@
                             <div id="divImpr">  <!--Ce div permet de délimiter la zone d'impression pour les emprunts-->
                                 <table>
                                     <tr>
-                                        <th>Couverture</th>
+                                        <th>Photo</th>
                                         <th>Client</th>
                                         <th>Client tel</th>
                                         <th>N°ISBN</th>

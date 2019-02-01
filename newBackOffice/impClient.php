@@ -44,7 +44,7 @@
                                 $photoclient = $ligne["CLIENT_PHOTO"];
                                 ?>
                                 <tr>
-                                    <td><a href="../images/client/cli_<?php echo $photoclient?>.jpg"><img src="../images/client/cli_<?php echo $photoclient?>.jpg" width="50px" height="50px"/></a></td>
+                                    <td><a href="../images/client/<?php echo $photoclient?>"><img src="../images/client/<?php echo $photoclient?>" width="50px" height="50px"/></a></td>
                                     <td><?php echo $nomclient; ?></td>
                                     <td><?php echo $prenomclient; ?></td>
                                     <td><?php echo $telclient; ?></td>

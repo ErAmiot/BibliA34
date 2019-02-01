@@ -37,7 +37,7 @@ if (isset($_GET["nomAuteur"])) {
                     $table2 = $connection->query($sql);
                     ?>
                     <tr>
-                        <td><a href="../images/livre/liv_<?php echo $ligne['LIV_IMG'] ?>.jpg"><img src="../images/livre/liv_<?php echo $ligne['LIV_IMG'] ?>.jpg" width="50px" height="50px"/></a></td>
+                        <td><a href="../images/livre/<?php echo $ligne['LIV_IMG'] ?>"><img src="../images/livre/<?php echo $ligne['LIV_IMG'] ?>" width="50px" height="50px"/></a></td>
                         <td><?php echo $ligne["LIV_TITRE"]; ?></td>
                         <td><?php echo $ligne["LIV_ISBN"]; ?></td>
                         <td><?php echo $ligne["EDIT_NOM"]; ?></td>
@@ -96,7 +96,7 @@ if (isset($_GET["nomAuteur"])) {
                     $table3 = $connection->query($sql3);
                     ?>
                     <tr>
-                        <td><a href="../images/livre/liv_<?php echo $ligne['LIV_IMG'] ?>.jpg"><img src="../images/livre/liv_<?php echo $ligne['LIV_IMG'] ?>.jpg" width="50px" height="50px"/></a></td>
+                        <td><a href="../images/livre/<?php echo $ligne['LIV_IMG'] ?>"><img src="../images/livre/<?php echo $ligne['LIV_IMG'] ?>" width="50px" height="50px"/></a></td>
                         <td><?php echo $ligne["LIV_TITRE"]; ?></td>
                         <td><?php echo $ligne["LIV_ISBN"]; ?></td>
                         <td><?php
@@ -152,7 +152,7 @@ if (isset($_GET["nomAuteur"])) {
                 $ligne = $table->fetch();
                 ?>
                 <tr>
-                    <td><a href="../images/livre/liv_<?php echo $ligne['LIV_IMG']; ?>.jpg"><img src="../images/livre/liv_<?php echo $ligne['LIV_IMG']; ?>.jpg" width="50px" height="50px"/></a></td>
+                    <td><a href="../images/livre/<?php echo $ligne['LIV_IMG']; ?>"><img src="../images/livre/<?php echo $ligne['LIV_IMG']; ?>" width="50px" height="50px"/></a></td>
                     <td><?php echo $ligne["LIV_TITRE"]; ?></td>
                     <td><?php echo $ligne["LIV_ISBN"]; ?></td>
                     <td><?php
@@ -214,7 +214,7 @@ if (isset($_GET["nomAuteur"])) {
                 $ligne = $table->fetch();
                 ?>
                 <tr>
-                    <td><a href="../images/livre/liv_<?php echo $ligne['LIV_IMG'] ?>.jpg"><img src="../images/livre/liv_<?php echo $ligne['LIV_IMG'] ?>.jpg" width="50px" height="50px"/></a></td>  
+                    <td><a href="../images/livre/<?php echo $ligne['LIV_IMG'] ?>"><img src="../images/livre/<?php echo $ligne['LIV_IMG'] ?>" width="50px" height="50px"/></a></td>  
                     <td><?php echo $ligne["LIV_TITRE"]; ?></td>
                     <td><?php echo $ligne["LIV_ISBN"]; ?></td>
                     <td><?php
