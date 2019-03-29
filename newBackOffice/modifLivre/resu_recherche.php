@@ -1,4 +1,5 @@
 <?php
+session_start();
 require '../../sqlconnect.php';
 
 if (isset($_GET["nomAuteur"])) {
@@ -123,12 +124,12 @@ if (isset($_GET["nomAuteur"])) {
         echo "Aucun livre ne correspond a votre recherche.";
     }
 } elseif (isset($_GET["isbn"])) {
-    $isbn = htmlentities($_GET["isbn"]);
+    $_SESSION['isbn'] = htmlentities($_GET["isbn"]);
 
     $sql2 = 'SELECT DISTinct * from livre, editeur, collection '
             . 'where editeur.EDIT_NUM=livre.EDIT_NUM '
             . 'and livre.COL_NUM=collection.COL_NUM '
-            . 'and livre.LIV_ISBN="' . $isbn . '"';
+            . 'and livre.LIV_ISBN="' . $_SESSION['isbn'] . '"';
     $table = $connection->query($sql2);
     $count = $table->rowCount();
     if ($count > 0) {
@@ -144,7 +145,6 @@ if (isset($_GET["nomAuteur"])) {
                     <th>Collection</th>
                     <th>Rubrique(s)</th>
                     <th>Date</th>
-                    <th>Livre a modifier</th>
                 </tr>
                 <?php
                 $ligne = $table->fetch();
@@ -156,7 +156,7 @@ if (isset($_GET["nomAuteur"])) {
                     <td><?php
                         $sql = 'select * from ecrire, auteur '
                                 . 'where auteur.AUT_NUM=ecrire.AUT_NUM '
-                                . 'and ecrire.LIV_ISBN="' . $isbn . '"';
+                                . 'and ecrire.LIV_ISBN="' . $_SESSION['isbn'] . '"';
                         $table = $connection->query($sql);
                         while ($donnee = $table->fetch()) {
                             echo $donnee['AUT_PRENOM'] . ' ' . $donnee['AUT_NOM'] . '<br>';
@@ -167,14 +167,13 @@ if (isset($_GET["nomAuteur"])) {
                     <td><?php
                         $sql = 'select * from rubriques, correspondre '
                                 . 'where correspondre.RUB_ID=rubriques.RUB_ID '
-                                . 'and correspondre.LIV_ISBN="' . $isbn . '"';
+                                . 'and correspondre.LIV_ISBN="' . $_SESSION['isbn'] . '"';
                         $table = $connection->query($sql);
                         while ($donnee = $table->fetch()) {
                             echo $donnee['RUB_NOM'] . '<br>';
                         }
                         ?></td>
                     <td><?php echo $ligne["LIV_DATE"]; ?></td>
-                    <td><input type="radio" name="modif" value="<?php echo $ligne["LIV_ISBN"] ?>"></td>
                 </tr>
             </table>
             <input type="submit" value="Modifier">
@@ -205,10 +204,10 @@ if (isset($_GET["nomAuteur"])) {
                     <th>Collection</th>
                     <th>Rubrique(s)</th>
                     <th>Date</th>
-                    <th>Livre a modifier</th>
                 </tr>
                 <?php
                 $ligne = $table->fetch();
+                $_SESSION['isbn']=$ligne['LIV_ISBN'];
                 ?>
                 <tr>
                     <td><a href="../images/livre/<?php echo $ligne['LIV_IMG'] ?>"><img src="../images/livre/<?php echo $ligne['LIV_IMG'] ?>" width="50px" height="50px"/></a></td>  
@@ -235,7 +234,6 @@ if (isset($_GET["nomAuteur"])) {
                         }
                         ?></td>
                     <td><?php echo $ligne["LIV_DATE"]; ?></td>
-                    <td><input type="radio" name="modif" value="<?php echo $ligne["LIV_ISBN"] ?>"></td>
                 </tr>
             </table>
             <input type="submit" value="Modifier">

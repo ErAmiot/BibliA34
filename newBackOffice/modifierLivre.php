@@ -7,7 +7,8 @@
 <body>
 <?php
     session_start();
-     //vérification de la session
+    unset($_SESSION['isbn']); 
+    //vérification de la session
     require 'getNav.php';
     setNav();
     if (isset($_SESSION['LOGID'])) {

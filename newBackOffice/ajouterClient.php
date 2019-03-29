@@ -31,10 +31,18 @@
 
             require '../sqlconnect.php';
 
-            $sql = "INSERT INTO client (CLIENT_NOM, CLIENT_PRENOM, CLIENT_TEl, CLIENT_ADR, CLIENT_VILLE, CLIENT_CP, CLIENT_MAIL, CLIENT_MDP ) VALUES ('" . $nom . "', '" . $prenom . "', '" . $tel . "', '" . $adresse . "', '" . $ville . "', '" . $cp . "', '" . $mail . "', '" . $mdp . "');";
-          
-            $connection->exec($sql);
-
+            $sql =$connection->prepare("INSERT INTO client (CLIENT_NOM, CLIENT_PRENOM, CLIENT_TEl, CLIENT_ADR, CLIENT_VILLE, CLIENT_CP, CLIENT_MAIL, CLIENT_MDP,CLIENT_PHOTO ) VALUES (?,?,?,?,?,?,?,?,?)");
+            $sql->bindParam(1,$nom,PDO::PARAM_STR);
+            $sql->bindParam(2,$prenom,PDO::PARAM_STR);
+            $sql->bindParam(3,$tel,PDO::PARAM_STR);
+            $sql->bindParam(4,$adresse,PDO::PARAM_STR);
+            $sql->bindParam(5,$ville,PDO::PARAM_STR);
+            $sql->bindParam(6,$cp,PDO::PARAM_STR);
+            $sql->bindParam(7,$mail,PDO::PARAM_STR);
+            $sql->bindParam(8,$mdp,PDO::PARAM_STR);
+            $sql->bindParam(9,$_SESSION['nomImage'],PDO::PARAM_STR);
+            $sql->execute();
+            unset($_SESSION['nomImage']);
             echo "Client ajouté.";
            
             ?>

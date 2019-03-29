@@ -1,3 +1,88 @@
+<?php
+session_start();
+if(isset($_POST["modif"])){
+    $_SESSION['isbn']=$_POST["modif"];
+}
+//include 'connexion.php';
+/* * **********************************************************
+ * Definition des constantes / tableaux et variables
+ * *********************************************************** */
+unset($_SESSION['nomImage']);
+// Constantes
+define('TARGET', '../../images/livre/');    // Repertoire cible
+define('MAX_SIZE', 10000000);    // Taille max en octets du fichier
+define('WIDTH_MAX', 1920);    // Largeur max de l'image en pixels
+define('HEIGHT_MAX', 1080);    // Hauteur max de l'image en pixels
+// Tableaux de donnees
+$tabExt = array('jpg', 'gif', 'png', 'jpeg');    // Extensions autorisees
+$infosImg = array();
+
+// Variables
+$extension = '';
+$message = '';
+$nomImage = '';
+
+/* * **********************************************************
+ * Creation du repertoire cible si inexistant
+ * *********************************************************** */
+if (!is_dir(TARGET)) {
+    if (!mkdir(TARGET, 0755)) {
+        exit('Erreur : le répertoire cible ne peut-être créé ! Vérifiez que vous diposiez des droits suffisants pour le faire ou créez le manuellement !');
+    }
+}
+
+/* * **********************************************************
+ * Script d'upload
+ * *********************************************************** */
+if (!empty($_REQUEST)) {
+    // On verifie si le champ est rempli
+    if (!empty($_FILES['fichier']['name'])) {
+        // Recuperation de l'extension du fichier
+        $extension = pathinfo($_FILES['fichier']['name'], PATHINFO_EXTENSION);
+
+        // On verifie l'extension du fichier
+        if (in_array(strtolower($extension), $tabExt)) {
+            // On recupere les dimensions du fichier
+            $infosImg = getimagesize($_FILES['fichier']['tmp_name']);
+            // On verifie le type de l'image
+            if ($infosImg[2] >= 1 && $infosImg[2] <= 14) {
+                // On verifie les dimensions et taille de l'image
+                if (($infosImg[0] <= WIDTH_MAX) && ($infosImg[1] <= HEIGHT_MAX) && (filesize($_FILES['fichier']['tmp_name']) <= MAX_SIZE)) {
+                    // Parcours du tableau d'erreurs
+                    if (isset($_FILES['fichier']['error']) && UPLOAD_ERR_OK === $_FILES['fichier']['error']) {
+                        // On renomme le fichier
+//            $nomImage = md5(uniqid()) .'.'. $extension;
+                        $nomImage = $_FILES['fichier']['name'];
+                        $_SESSION ['nomImage'] = $nomImage;
+                        //var_dump($_FILES['fichier']);
+                        // Si c'est OK, on teste l'upload
+                        if (move_uploaded_file($_FILES['fichier']['tmp_name'], TARGET . $nomImage)) {
+                            $message = 'Upload réussi !';
+                        } else {
+                            // Sinon on affiche une erreur systeme
+                            $message = 'Problème lors de l\'upload !';
+                        }
+                    } else {
+                        $message = 'Une erreur interne a empêché l\'uplaod de l\'image';
+                    }
+                } else {
+                    // Sinon erreur sur les dimensions et taille de l'image
+                    $message = 'Erreur dans les dimensions de l\'image !';
+                }
+            } else {
+                // Sinon erreur sur le type de l'image
+                $message = 'Le fichier à uploader n\'est pas une image !';
+            }
+        } else {
+            // Sinon on affiche une erreur pour l'extension
+            $message = 'L\'extension du fichier est incorrecte !';
+        }
+    } else {
+        // Sinon on affiche une erreur pour le champ vide
+        $message = 'Veuillez remplir le formulaire svp !';
+    }
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,7 +94,6 @@
     </head>
     <body>
         <?php
-        session_start();
         //vérification de la session
         require '../getNav.php';
         setNav();
@@ -21,9 +105,8 @@
             </div>
             <div id="main_content">
                 <?php
-                if (isset($_POST["modif"])) {
-                    $isbn = htmlentities($_POST["modif"]);
-                    $sql = 'SELECT *  FROM livre where livre.LIV_ISBN = "' . $isbn . '" ';
+                if (isset($_SESSION['isbn'])) {
+                    $sql = 'SELECT *  FROM livre where LIV_ISBN = "' . $_SESSION['isbn'] . '" ';
                     $table = $connection->query($sql);
                     while ($ligne = $table->fetch()) {
                         $titre = $ligne['LIV_TITRE'];
@@ -31,12 +114,22 @@
                     $table->closeCursor();
                     ?>
                     <h1>Modifier <?php echo $titre ?>:</h1>
+                    <form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+
+                        <p>
+                            <label for="fichier_a_uploader" title="Recherchez le fichier à uploader !">Couverture :</label>
+                            <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo MAX_SIZE; ?>" />
+                            <input name="fichier" type="file" id="fichier_a_uploader" />
+                            <input type="submit" name="submit" value="Uploader" />
+                        </p>
+
+                </form>
                     <form action="modification.php" method="GET">
-                        <input type="hidden" name="isbn" value="<?php echo $isbn ?>">
+                        <input type="hidden" name="isbn" value="<?php echo $_SESSION['isbn'] ?>">
                         Auteur :<br>
                         <select name="auteur[]" type="select" multiple size="3"  required>
                             <?php
-                            $sql = 'SELECT * FROM ecrire where LIV_ISBN="' . $isbn . '" ';
+                            $sql = 'SELECT * FROM ecrire where LIV_ISBN="' . $_SESSION['isbn'] . '" ';
                             $sql2 = 'SELECT * FROM auteur';
                             $table2 = $connection->query($sql2);
                             while ($ligne2 = $table2->fetch()) {
@@ -96,7 +189,7 @@
                         Rubrique :<br>
                         <select name="rubrique[]" type="select" multiple size="6" required>
                             <?php
-                            $sql = 'SELECT * FROM correspondre where LIV_ISBN="' . $isbn . '" ';
+                            $sql = 'SELECT * FROM correspondre where LIV_ISBN="' . $_SESSION['isbn'] . '" ';
                             $sql2 = 'SELECT * FROM rubriques';
                             $table2 = $connection->query($sql2);
                             while ($ligne2 = $table2->fetch()) {
@@ -123,7 +216,7 @@
                         </select></br></br>
 
                         <?php
-                        $sql = 'SELECT *  FROM livre where LIV_ISBN="' . $isbn . '"';
+                        $sql = 'SELECT *  FROM livre where LIV_ISBN="' . $_SESSION['isbn'] . '"';
                         $table = $connection->query($sql);
                         $ligne = $table->fetch();
                         $resume = $ligne['LIV_RESUME'];

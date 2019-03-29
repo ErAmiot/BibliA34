@@ -7,9 +7,9 @@ session_start();
 
 // Constantes
 define('TARGET', '../images/livre/');    // Repertoire cible
-define('MAX_SIZE', 100000);    // Taille max en octets du fichier
-define('WIDTH_MAX', 800);    // Largeur max de l'image en pixels
-define('HEIGHT_MAX', 800);    // Hauteur max de l'image en pixels
+define('MAX_SIZE', 10000000);    // Taille max en octets du fichier
+define('WIDTH_MAX', 1920);    // Largeur max de l'image en pixels
+define('HEIGHT_MAX', 1080);    // Hauteur max de l'image en pixels
 // Tableaux de donnees
 $tabExt = array('jpg', 'gif', 'png', 'jpeg');    // Extensions autorisees
 $infosImg = array();
@@ -106,7 +106,7 @@ if (!empty($_REQUEST)) {
                 <form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
 
                         <p>
-                            <label for="fichier_a_uploader" title="Recherchez le fichier à uploader !">Photo :</label>
+                            <label for="fichier_a_uploader" title="Recherchez le fichier à uploader !">Couverture :</label>
                             <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo MAX_SIZE; ?>" />
                             <input name="fichier" type="file" id="fichier_a_uploader" />
                             <input type="submit" name="submit" value="Uploader" />

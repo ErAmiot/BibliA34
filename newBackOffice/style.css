@@ -148,8 +148,8 @@ input[type="text"],input[type="password"]{
     height: 50px;
     margin-right: 40px;
     margin-left: 40px;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     font-size: 16px;
     text-align: center;
     background: transparent;
@@ -221,4 +221,13 @@ input:focus:-ms-input-placeholder { color:transparent; } /* IE 10+ */
 
 tr:nth-child(even) {
   background-color: #dddddd;
+}
+
+.imgAut{
+    width : 125px;
+    height : 150px;
+}
+.imgCli{
+    width : 125px;
+    height : 150px;    
 }

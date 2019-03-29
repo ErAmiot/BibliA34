@@ -59,7 +59,7 @@
                                 }
                                 ?>
                                 <tr>
-                                    <td><a href="../images/client/<?php echo $CLIENT_IMG?>.jpg"><img src="../images/client/<?php echo $CLIENT_IMG?>.jpg" width="50px" height="50px"/></a></td>
+                                    <td><a href="../images/client/<?php echo $CLIENT_IMG?>"><img src="../images/client/<?php echo $CLIENT_IMG?>" width="50px" height="50px"/></a></td>
                                     <td><?php echo $CLIENT_NOM . " " . $CLIENT_PRENOM; ?></td>
                                     <td><?php echo $CLIENT_TEL; ?></td>
                                     <td><?php echo $LIV_ISBN; ?></td>
