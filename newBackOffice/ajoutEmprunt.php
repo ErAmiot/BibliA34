@@ -12,7 +12,7 @@
         setNav();
         if (isset($_SESSION['LOGID'])) {
             require '../sqlconnect.php';
-            $sql2 = 'SELECT count(*) as nb_livre FROM livre WHERE LIV_EMPRUNTER = 0';
+            $sql2 = 'SELECT count(*) as nb_livre FROM livre ';
             $nb = $connection->query($sql2);
             ?>
             <div id="current_page">
@@ -27,13 +27,13 @@
                         <div id="ajoutempruntisbn">
                             <p>Titre du livre :</p>
                             <?php
-                            while ($aff = $nb->fetch()) {
+                            $aff=$nb->fetch();
                                 if ($aff['nb_livre'] >= 1) {
                                     ?>
                                     <select id="select_recherche" name="isbn">
                                         <?php
                                         require '../sqlconnect.php';
-                                        $sql = 'SELECT *  FROM livre WHERE LIV_EMPRUNTER = 0';
+                                        $sql = 'SELECT *  FROM livre ';
                                         $table = $connection->query($sql);
 
 
@@ -52,7 +52,7 @@
                                         <p>Aucun livre disponible</p>
                                         <?php
                                     }
-                                }
+                                
                                 ?>
                             </select>
                         </div>

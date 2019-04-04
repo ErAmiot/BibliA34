@@ -56,9 +56,30 @@
             }
             ?>
         </table><br>
+      <?php
+       require '../sqlconnect.php';
+       $sql = 'SELECT count(*) as nb FROM emprunter WHERE CLIENT_ID = "'.$_SESSION['CLIENT_ID'].'"';
+       $reponse2 = $connection->query($sql);
+       $ligne=$reponse2->fetch();
+       if($ligne['nb']>0){
+           //echo $ligne['nb'];
+       
+       
+       
+      
+      ?>
         <center><input type="submit" value="Donner votre avis"></center>
-        </form>
+        
         <?php
+        
+      }
+       
+        ?>
+        
+        </form>
+        
+        <?php
+       
     }
     ?>
 </body>
