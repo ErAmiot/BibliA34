@@ -7,7 +7,7 @@
     while($ligne = $table->fetch()) {
       $nomRub = $ligne['RUB_NOM'];
     	?>
-    	<option value='<?php echo $nomRub ?>'><?php echo $nomRub?></option>
+    	<option value='<?php echo $ligne['RUB_ID'] ?>'><?php echo $nomRub?></option>
     <?php }
     $table->closeCursor();
     ?>

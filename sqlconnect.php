@@ -2,7 +2,7 @@
 
 // Connection au serveur
 try {
-    $dns = 'mysql:host=localhost;dbname=bdsamyn';
+    $dns = 'mysql:host=localhost;dbname=bdbiblia34';
     $utilisateur = 'root';
     $motDePasse = '';
     $connection = new PDO( $dns, $utilisateur, $motDePasse );

@@ -7,7 +7,7 @@
     while($ligne = $table->fetch()) {
       $nomCol = $ligne['COL_NOM'];
     	?>
-    	<option value='<?php echo $nomCol ?>'><?php echo $nomCol?></option>
+    	<option value='<?php echo $ligne['COL_NUM'] ?>'><?php echo $nomCol?></option>
     <?php }
     $table->closeCursor();
     ?>
