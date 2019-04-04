@@ -18,7 +18,7 @@
             <div id="current_page">
                 
                 <?php while ($donnee = $req->fetch()) { ?>
-                <h1>Index</h1><h2>Connecté(e) : <?php echo $_SESSION['CLIENT_NOM']; ?></h2><a href="../images/client/cli_<?php echo $donnee['CLIENT_PHOTO']?>.jpg"><img src="../images/client/cli_<?php echo $donnee['CLIENT_PHOTO']?>.jpg" width="50px" height="50px"/></a>
+                <h1>Index</h1><h2>Connecté(e) : <?php echo $_SESSION['CLIENT_NOM']; ?></h2><a href="../images/client/<?php echo $donnee['CLIENT_PHOTO']?>"><img class="cliImg" src="../images/client/<?php echo $donnee['CLIENT_PHOTO']?>" /></a>
                     <?php } ?>
                 </div>
                 <div id="main_content">
