@@ -43,7 +43,7 @@
                           <div id="divImpr">
                             <table>
                                 <tr>
-                                    <th>ID Client</th>
+                                    <th>Photo</th>
                                     <th>Nom Client</th>
                                     <th>Prénom Client</th>
                                     <th>Tel Client</th>
@@ -51,7 +51,6 @@
                                     <th>Ville Client</th>
                                     <th>Code Postal</th>
                                     <th>Adresse Mail</th>
-                                    <th>Mot de passe</th>
                                     <th>Supprimer?</th>
                                 </tr>
                                 <?php
@@ -65,10 +64,11 @@
                                     $CLIENTCP = $ligne["CLIENT_CP"];
                                     $CLIENTMAIL = $ligne["CLIENT_MAIL"];
                                     $CLIENTMDP = $ligne["CLIENT_MDP"];
+                                    $CLIENT_IMG=$ligne['CLIENT_PHOTO'];
 
                                     ?>
                                     <tr>
-                                        <td><?php echo $CLIENTID; ?></td>
+                                        <td><a href="../images/client/<?php echo $CLIENT_IMG?>"><img src="../images/client/<?php echo $CLIENT_IMG?>" width="50px" height="50px"/></a></td>
                                         <td><?php echo $CLIENTNOM; ?></td>
                                         <td><?php echo $CLIENTPRENOM; ?></td>
                                         <td><?php echo $CLIENTTEL; ?></td>
@@ -76,7 +76,6 @@
                                         <td><?php echo $CLIENTVILLE; ?></td>
                                         <td><?php echo $CLIENTCP; ?></td>
                                         <td><?php echo $CLIENTMAIL; ?></td>
-                                        <td><?php echo $CLIENTMDP; ?></td>
                                         <td><input type="checkbox"  id="supprClient" name="supprClient[]" value="<?php echo $CLIENTID ?>"></td>
 
                                     </tr>

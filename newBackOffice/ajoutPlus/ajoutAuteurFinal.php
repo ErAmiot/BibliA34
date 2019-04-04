@@ -8,16 +8,20 @@
 </head>
 <body onload="retour();">
     <?php
-    		require '../../sqlconnect.php';
-
-      $nom=htmlentities($_POST["autNom"]);
+    session_start();
+    //
+    require '../../sqlconnect.php';
+       
+    $nom=htmlentities($_POST["autNom"]);
       $prenom=htmlentities($_POST["autPrenom"]);
-
-      $sql="INSERT INTO auteur (AUT_NOM, AUT_PRENOM) VALUES ('".$nom."', '".$prenom."');";
-      echo $sql;
-      $connection->exec($sql);
-
-      echo "Auteur ajouté maggle"
+      
+    $sql=$connection->prepare("INSERT INTO auteur (AUT_NOM, AUT_PRENOM,AUT_PHOTO) VALUES (?,?,?);");
+    $sql->bindParam(1,$nom,PDO::PARAM_STR);
+    $sql->bindParam(2,$prenom,PDO::PARAM_STR);
+    $sql->bindParam(3,$_SESSION['nomImage'],PDO::PARAM_STR);
+    $sql->execute();
+    unset($_SESSION['nomImage']);
+    echo "Auteur ajouté maggle"
 
        ?>
 </body>

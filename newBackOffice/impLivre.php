@@ -14,12 +14,12 @@
             require '../sqlconnect.php';
             ?>
             <div id="current_page">
-                <h1>Liste Livres</h1><h2>Connecté(e) : <?php echo $_SESSION['LOGID'];?></h2>
+                <h1>Liste Livres</h1><h2>Connecté(e) : <?php echo $_SESSION['LOGID']; ?></h2>
             </div>
             <div id="main_content">
                 <h2>Impression : </h2>
                 <?php
-                $sql = "SELECT * FROM livre, ecrire, auteur, editeur, collection, correspondre, rubriques "
+                $sql = "SELECT DISTINCT livre.LIV_ISBN, COL_NOM, EDIT_NOM, LIV_TITRE, LIV_DATE, LIV_IMG FROM livre, ecrire, auteur, editeur, collection, correspondre, rubriques "
                         . "WHERE livre.LIV_ISBN = ecrire.LIV_ISBN "
                         . "AND ecrire.AUT_NUM = auteur.AUT_NUM "
                         . "AND livre.EDIT_NUM = editeur.EDIT_NUM "
@@ -49,29 +49,44 @@
                                 $EDIT_NOM = $ligne["EDIT_NOM"];
                                 $LIV_TITRE = $ligne["LIV_TITRE"];
                                 $LIV_DATE = $ligne["LIV_DATE"];
-                                $AUT_NOM = $ligne["AUT_NOM"];
-                                $AUT_PRENOM = $ligne["AUT_PRENOM"];
-                                $RUB_NOM = $ligne["RUB_NOM"];
-                                $LIV_IMG=$ligne["LIV_IMG"];
+                                $LIV_IMG = $ligne["LIV_IMG"];
+
+                                $sql2 = 'SELECT * FROM auteur, ecrire '
+                                        . 'WHERE auteur.AUT_NUM = ecrire.AUT_NUM '
+                                        . 'AND ecrire.LIV_ISBN ="' . $LIV_ISBN . '"';
+                                $table2 = $connection->query($sql2);
+                                $sql3 = 'SELECT * FROM rubriques, correspondre '
+                                        . 'WHERE rubriques.RUB_ID = correspondre.RUB_ID '
+                                        . 'AND correspondre.LIV_ISBN ="' . $LIV_ISBN . '"';
+                                $table3 = $connection->query($sql3);
                                 ?>
+
                                 <tr>
-                                    <td><a href="../images/livre/liv_<?php echo    $LIV_IMG ?>.jpg"><img src="../images/livre/liv_<?php echo    $LIV_IMG ?>.jpg" width="50px" height="50px"/></a></td>
+                                    <td><a href="../images/livre/<?php echo $LIV_IMG ?>"><img src="../images/livre/<?php echo $LIV_IMG ?>" width="50px" height="50px"/></a></td>
                                     <td><?php echo $LIV_TITRE; ?></td>
                                     <td><?php echo $LIV_ISBN; ?></td>
-                                    <td><?php echo $AUT_NOM . " " . $AUT_PRENOM; ?></td>
+                                    <td><?php
+                                        while ($donnees = $table2->fetch()) {
+                                            echo $donnees['AUT_PRENOM'] . ' ' . $donnees['AUT_NOM'] . '<br>';
+                                        }
+                                        ?></td>
                                     <td><?php echo $EDIT_NOM; ?></td>
                                     <td><?php echo $COL_NOM; ?></td>
-                                    <td><?php echo $RUB_NOM; ?></td>
+                                    <td><?php
+                            while ($donnees = $table3->fetch()) {
+                                echo $donnees['RUB_NOM'] . '<br>';
+                            }
+                                        ?></td>
                                     <td><?php echo $LIV_DATE; ?></td>
                                 </tr>
-                                <?php
-                            }
-                            ?>
+                        <?php
+                    }
+                    ?>
                         </table>
                     </div>
-                    <?php
-                }
-                ?>
+        <?php
+    }
+    ?>
                 <button name="b_print" type="button" onclick="printdiv('divImpr');">Imprimer</button>
                 <button name="b_print" type="button" onclick="location.href = 'index.php';">Retour</button>
                 <script>

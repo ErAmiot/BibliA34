@@ -16,6 +16,12 @@
         $numAut=htmlentities($_POST["numAut"]);
         $nomAut=htmlentities($_POST["nomModif"]);
         $prenomAut=htmlentities($_POST["prenomModif"]);
+        if(isset($_SESSION['nomImage'])){
+            $sql=$connection->prepare("UPDATE auteur SET AUT_PHOTO=? WHERE AUT_NUM=?");
+            $sql->bindParam(1,$_SESSION['nomImage'],PDO::PARAM_STR);
+            $sql->bindParam(2,$numAut,PDO::PARAM_STR);
+            $sql->execute();
+        }
         $sql="UPDATE auteur SET AUT_NOM='".$nomAut."',AUT_PRENOM='".$prenomAut."' WHERE AUT_NUM = '".$numAut."';";
         $connection->exec($sql);
         ?>

@@ -68,10 +68,9 @@
                         </div>
                         <br>         
                         <?php
-                         if (isset($flag)) {
-                              echo '<input type="submit" value="Valider"/>';
-                         }
-                         
+                        if (isset($flag)) {
+                            echo '<input type="submit" value="Valider"/>';
+                        }
                         ?>
                         <input type="button" onClick="location.href = 'accueilClient.php';" value="Retour"/>
                     </form>

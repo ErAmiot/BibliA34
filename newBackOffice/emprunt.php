@@ -31,7 +31,7 @@
                             <div id="divImpr">  <!--Ce div permet de délimiter la zone d'impression pour les emprunts-->
                                 <table>
                                     <tr>
-                                        <th>Couverture</th>
+                                        <th>Photo</th>
                                         <th>Client</th>
                                         <th>Client tel</th>
                                         <th>N°ISBN</th>
@@ -58,7 +58,7 @@
                                           } */
                                         ?>
                                         <tr>
-                                            <td><a href="../images/client/cli_<?php echo $CLIENT_IMG ?>.jpg"><img src="../images/client/cli_<?php echo $CLIENT_IMG ?>.jpg" width="50px" height="50px"/></a></td>
+                                            <td><a href="../images/client/<?php echo $CLIENT_IMG ?>"><img src="../images/client/<?php echo $CLIENT_IMG ?>" width="50px" height="50px"/></a></td>
                                             <td><?php echo $CLIENT_NOM . " " . $CLIENT_PRENOM; ?></td>
                                             <td><?php echo $CLIENT_TEL; ?></td>
                                             <td><?php echo $LIV_ISBN; ?></td>

@@ -6,15 +6,20 @@
     </head>
     <body onload="location.href = '../index.php';">
         <?php
+        //
         session_start();
         if (isset($_SESSION['LOGID'])) {
             # code..
             ?>
             <h1>Ajout</h1>
             <?php
+            if (isset($_SESSION['nomImage'])) {
+                $image = $_SESSION['nomImage'];
+            } else {
+                echo 'oui';
+            }
             $titre = htmlentities($_POST["titre"]);
             $auteur = $_POST["auteur"];
-            var_dump($auteur);
             $collection = htmlentities($_POST["collection"]);
             $editeur = htmlentities($_POST["editeur"]);
             $rubrique = $_POST["rubrique"];
@@ -23,19 +28,33 @@
             $resume = htmlentities($_POST["resume"]);
             $etat = htmlentities($_POST["etat"]);
             require '../../sqlconnect.php';
-            $sql = "INSERT INTO livre (LIV_ISBN, COL_NUM, EDIT_NUM, LIV_TITRE, LIV_DATE, LIV_RESUME, LIV_ETAT) VALUES ('" . $isbn . "', '" . $collection . "', '" . $editeur . "', '" . $titre . "','" . $date . "', '" . $resume . "', '" . $etat . "');";
-            $connection->exec($sql);
+            $sql = $connection->prepare('INSERT INTO livre(LIV_ISBN, COL_NUM, EDIT_NUM, LIV_TITRE, LIV_DATE, LIV_IMG, LIV_RESUME, LIV_ETAT ) VALUES(:ISBN, :collection, :editeur, :titre, :date, :image, :resume, :etat)');
+            $sql->execute(array(
+                        'ISBN' => $isbn,
+                        'collection' => $collection,
+                        'editeur' => $editeur,
+                        'titre' => $titre,
+                        'date' => $date,
+                        'image' => $image,
+                        'resume' => $resume,
+                        'etat' => $etat
+                    )) or die(print_r($connection->errorInfo()));
+            var_dump($auteur);
+
             foreach ($auteur as $aut) {
-                $sql2 = "INSERT INTO ecrire (AUT_NUM, LIV_ISBN) VALUES ('" . $aut . "', '" . $isbn . "');";
-            $connection->exec($sql2);
+                $req = 'INSERT INTO ecrire(AUT_NUM, LIV_ISBN) VALUES("' . $aut . '","' . $isbn . '")';
+                $connection->exec($req);
+                echo $isbn;
+                var_dump($aut);
             }
             foreach ($rubrique as $rub) {
-                $sql3 = "INSERT INTO correspondre (RUB_ID, LIV_ISBN) VALUES ('" . $rub . "', '" . $isbn . "');";
-            $connection->exec($sql3);
+                $sql3 = $connection->prepare('INSERT INTO correspondre(RUB_ID, LIV_ISBN) VALUES(:rub, :ISBN)');
+                $sql3->execute(array(
+                    'rub' => $rub,
+                    'ISBN' => $isbn
+                ));
             }
-
-
-
+            unset($_SESSION['nomImage']);
             echo "le livre a bien été ajouté.";
             ?>
             <br/>
