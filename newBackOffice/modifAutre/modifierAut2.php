@@ -10,6 +10,10 @@
 <body>
 <?php
     session_start();
+    if(isset($_POST["aut"])){
+        $_SESSION['numAut'] = $_POST["aut"];
+    }
+
     define('TARGET', '../../images/auteur/');    // Repertoire cible
 define('MAX_SIZE', 10000000);    // Taille max en octets du fichier
 define('WIDTH_MAX', 1920);    // Largeur max de l'image en pixels
@@ -95,18 +99,19 @@ if (!empty($_REQUEST)) {
     </div>
     <div id="main_content">
         <?php
-        $numAut = htmlentities($_POST["aut"]);
-        $sql = 'SELECT *  FROM auteur WHERE AUT_NUM = "'.$numAut.'"';
+        
+        $sql = 'SELECT *  FROM auteur WHERE AUT_NUM = "'.$_SESSION['numAut'].'"';
         $table = $connection->query($sql);
         while ($ligne = $table->fetch()) {
             $nomAut = $ligne['AUT_NOM'];
-            $prenomAut = $ligne['AUT_PRENOM'];            
+            $prenomAut = $ligne['AUT_PRENOM']; 
+            $photo=$ligne['AUT_PHOTO'];           
         }
-        $table->closeCursor();
+        
         ?>
         <h1>Modifier <?php echo $nomAut." ".$prenomAut ?>:</h1>
         
-        <a href="../images/auteur/<?php echo $ligne['AUT_PHOTO'] ?>"><img class="imgAut" src="../images/auteur/<?php echo $ligne['AUT_PHOTO'] ?>" /></a>
+        <a href="../../images/auteur/<?php echo $photo ?>"><img class="imgAut" src="../../images/auteur/<?php echo $photo ?>" /></a>
         <form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
 
                         <p>
@@ -117,9 +122,7 @@ if (!empty($_REQUEST)) {
                         </p>
 
                 </form>
-         <form action="modificationAuteur.php" method="POST">
-            <input type="hidden" name="numAut" value="<?php echo $numAut ?>">
-            
+         <form action="modificationAuteur.php" method="POST">            
             <input name="nomModif" value="<?php echo $nomAut ?>" type="text"><br/>
             <input name="prenomModif" value="<?php echo $prenomAut ?>" type="text">
         
@@ -127,6 +130,7 @@ if (!empty($_REQUEST)) {
         </form>
         <br/>
             <?php
+            $table->closeCursor();
         }
         else{
             header('Location: login.php');
