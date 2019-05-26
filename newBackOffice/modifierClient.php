@@ -7,6 +7,9 @@
 <body>
 <?php
     session_start();
+    if (isset($_GET['client'])){
+        $_SESSION['client']=$_GET['client'];
+    }
     define('TARGET', '../images/client/');    // Repertoire cible
 define('MAX_SIZE', 10000000);    // Taille max en octets du fichier
 define('WIDTH_MAX', 1920);    // Largeur max de l'image en pixels
@@ -52,7 +55,7 @@ if (!empty($_REQUEST)) {
                         // On renomme le fichier
 //            $nomImage = md5(uniqid()) .'.'. $extension;
                         $nomImage = $_FILES['fichier']['name'];
-                        $_SESSION ['nomImage'] = $nomImage;
+                        $_SESSION['nomImage'] = $nomImage;
                         echo $_SESSION['nomImage'];
                         //var_dump($_FILES['fichier']);
                         // Si c'est OK, on teste l'upload
@@ -95,8 +98,8 @@ if (!empty($_REQUEST)) {
 			<p>Modifier un client<p>
                             
               <?php
-              $client = $_GET["client"];
-              $sql = "SELECT * FROM client WHERE CLIENT_ID='".$client."';";
+             
+              $sql = "SELECT * FROM client WHERE CLIENT_ID='".$_SESSION['client']."';";
                             $table = $connection->query($sql);
                             while ($ligne = $table->fetch()) {
                                 $clientid1 = $ligne["CLIENT_ID"];
@@ -120,7 +123,7 @@ if (!empty($_REQUEST)) {
 
                 </form>
                         <form action="modifAutre/modificationClient.php" method="GET">
-                               <input type="hidden" name="client" value="<?php echo $client; ?>"><br/>
+                               <input type="hidden" name="client" value="<?php echo $_SESSION['client']; ?>"><br/>
                                <input name="clientnom" value="<?php echo $clientnom; ?>" type="text" placeholder="Nom">
                                <input name="clientprenom" value="<?php echo $clientprenom ;?>" type="text" placeholder="Prénom"><br/>
                                <input name="clienttel" value="<?php echo $clienttel ;?>" type="text" placeholder="Tel" pattern="^[0-9]{10}" title="le numéro de téléphone doit ressembler à: 06XXXXXXXX" required><br/>
