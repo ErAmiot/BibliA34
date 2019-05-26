@@ -20,11 +20,11 @@
             <div id="main_content">
                 <?php
                 if (isset($_POST["avis"])) {
-                    $isbn = htmlentities($_POST["avis"]);
+                    $emprunt = htmlentities($_POST["avis"]);
                     ?>
 
                     <form action="avis.php" method="post">
-                        <input value="<?= $isbn ?>" name="isbn" hidden="true"> </input>
+                        <input value="<?= $emprunt ?>" name="emprunt" hidden="true"> </input>
                         <br><br><textarea name="votreAvis" id="votreAvis"  style="margin: 0px; height: 80px; width: 400px;"></textarea>
                         <br><br><input type="submit" value="Valider"/>
 
