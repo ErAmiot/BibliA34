@@ -52,7 +52,6 @@ if (!empty($_REQUEST)) {
 //            $nomImage = md5(uniqid()) .'.'. $extension;
                         $nomImage = $_FILES['fichier']['name'];
                         $_SESSION ['nomImage'] = $nomImage;
-                        echo $_SESSION ['nomImage'];
                         //var_dump($_FILES['fichier']);
                         // Si c'est OK, on teste l'upload
                         if (move_uploaded_file($_FILES['fichier']['tmp_name'], TARGET . $nomImage)) {
