@@ -23,7 +23,7 @@
             </div>
         <center><h2>Mes emprunts : </h2></center>
         <form class="" action="donnerAvis.php" method="post">
-            <table
+            <table>
                 <tr>
                     <th>Image</th>
                     <th>Titre</th>
@@ -48,7 +48,7 @@
                                                             <th>' . $donnees['EMP_DATE'] . '</th>
                                                             <th>' . $donnees['EMP_DATE_R_MAX'] . '</th>
                                                             <th>' . $donnees['EMP_DATE_R_REEL'] . '</th>
-                                                            <th><input type="radio" name="avis" value="' . $donnees1['LIV_ISBN'] . '"></th>
+                                                            <th><input type="radio" name="avis" value="' . $donnees['EMP_ID'] . '"></th>
                                                         </tr>';
 
                         echo $don;
