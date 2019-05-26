@@ -8,8 +8,10 @@
     <body onload="location.href = '../client.php';">
   <?php    session_start();    #vérification de la session
      if (isset($_SESSION['LOGID'])) {
+      //
        require '../../sqlconnect.php';
 
+       
      $idclient=$_GET["client"];
      $idnom=$_GET["clientnom"];
      $idprenom=$_GET["clientprenom"];
@@ -18,10 +20,15 @@
      $idville=$_GET["clientville"];
      $idcp = $_GET["clientcp"];
      $idmail = $_GET["clientmail"];
+     if(isset($_SESSION['nomImage'])){
+        $sql="UPDATE client SET CLIENT_PHOTO='".$_SESSION['nomImage']."' WHERE CLIENT_ID = '".$idclient."'";
+        $connection->exec($sql);
+       }
      $sql="UPDATE client SET CLIENT_NOM='".$idnom."',CLIENT_PRENOM='".$idprenom."',CLIENT_TEL='".$idtel."',CLIENT_ADR='".$idadr."',CLIENT_VILLE='".$idville."',CLIENT_CP='".$idcp."',CLIENT_MAIL='".$idmail."' WHERE CLIENT_ID= '".$idclient."';";
      $connection->exec($sql);  ?>
       <?php
-
+      unset($_SESSION['nomImage']);
+      unset($_SESSION['client']);
 }
       else{
         header('Location: login.php');
